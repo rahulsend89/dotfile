@@ -1,0 +1,49 @@
+" Make XVim use swedish keyboard.
+set alwaysuseinputsource
+" Show relative line numbers up and down.
+set relativenumber
+set number
+set clipboard=unnamed
+set hlsearch
+set ignorecase
+set smartcase
+nmap <S-J> 5j
+nmap <S-K> 5k
+inoremap <C-h> <left>
+inoremap <C-l> <right>
+inoremap <C-j> <down>
+inoremap <C-k> <up>
+Map $ to 4
+nmap <S-€> <S-$>
+nmap 0 0w
+nmap <S-U> <C-u>
+" toggle navigator, debug area, utilities, ToolBar  
+" l-left, b-bottom, r-right, t-top or toolbar
+map ,tl :xccmd toggleNavigatorsVisibility<CR>
+map ,tb :xccmd toggleDebuggerVisibility<CR>
+map ,tr :xccmd toggleUtilitiesVisibility<CR>
+map ,tt :xccmd toggleToolbarShown<CR>
+nmap gf :xccmd jumpToDefinition<CR>
+vnoremap gc  :xccmd commentAndUncommentCurrentLines<CR>
+noremap gc :xccmd commentAndUncommentCurrentLines<CR>
+vnoremap < <gv
+vnoremap > >gv
+noremap ,xc :nohls<CR>
+nmap ,b :xccmd toggleBreakpointAtCurrentLine<CR>
+nnoremap ,o :xccmd openQuickly<CR>
+nmap ,n :nissue<CR>
+nmap ,p :pissue<CR>
+nmap ,f :xccmd showInFinder<CR>
+nmap ,c :xmenucmd Clean<CR>
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set sta
+set expandtab
+set ai
+set si
+set cin
+set history=700
+set ul=700
+set showcmd
+set sol

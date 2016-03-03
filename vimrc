@@ -53,6 +53,7 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{fugitive#statusline()}%{exists('*Cap
 
 set background=dark
 colorscheme solarized 
+let g:solarized_termtrans=1
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>
@@ -84,4 +85,4 @@ map ,xc :noh<cr>
 " autocmd FileType css  setlocal foldmethod=indent shiftwidth=2 tabstop=2
 
 " For the MakeGreen plugin and Ruby RSpec. Uncomment to use.
-autocmd BufNewFile,BufRead *_spec.rb compiler rspec
+" autocmd BufNewFile,BufRead *_spec.rb compiler rspec

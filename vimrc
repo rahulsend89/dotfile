@@ -66,8 +66,9 @@ map H ^
 map L g_
 map J 5j
 map K 5k
+map ,xc :noh<cr>
 " Uncomment to use Jamis Buck's file opening plugin
-" map <Leader>s :FuzzyFinderTextMate<Enter>
+" map <Leader>t :FuzzyFinderTextMate<Enter>
 
 " Controversial...swap colon and semicolon for easier commands
 "nnoremap ; :

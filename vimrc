@@ -49,8 +49,8 @@ set laststatus=2                  " Show the status line all the time
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{fugitive#statusline()}%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
-" Or use vividchalk
-colorscheme topfunky-light
+set background=dark
+colorscheme solarized 
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>
@@ -62,9 +62,12 @@ map <leader>tp :tabprevious<cr>
 map <leader>tf :tabfirst<cr>
 map <leader>tl :tablast<cr>
 map <leader>tm :tabmove
-
+map H ^
+map L g_
+map J 5j
+map K 5k
 " Uncomment to use Jamis Buck's file opening plugin
-"map <Leader>t :FuzzyFinderTextMate<Enter>
+" map <Leader>s :FuzzyFinderTextMate<Enter>
 
 " Controversial...swap colon and semicolon for easier commands
 "nnoremap ; :
@@ -79,5 +82,3 @@ map <leader>tm :tabmove
 
 " For the MakeGreen plugin and Ruby RSpec. Uncomment to use.
 autocmd BufNewFile,BufRead *_spec.rb compiler rspec
-
-

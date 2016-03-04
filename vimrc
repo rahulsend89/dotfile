@@ -3,6 +3,8 @@ set relativenumber
 set number
 set nocompatible                  " Must come first because it changes other options.
 
+set rtp+=/usr/local/opt/fzf
+
 silent! call pathogen#runtime_append_all_bundles()
 
 syntax enable                     " Turn on syntax highlighting.
@@ -68,6 +70,7 @@ map L g_
 map J 5j
 map K 5k
 map ,xc :noh<cr>
+map <leader>v :e ~/.vimrc<cr>
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set nobackup
 set nowritebackup 

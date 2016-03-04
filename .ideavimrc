@@ -1,0 +1,16 @@
+set hlsearch
+set ignorecase
+set incsearch
+set number
+set relativenumber
+set showmode
+set smartcase
+set visualbell
+set wrapscan
+set clipboard
+set gdefault
+map ,xc :noh<CR>
+map <S-J> 5j
+map <S-K> 5k
+map <S-H> ^
+map <S-L> $

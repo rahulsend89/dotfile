@@ -1,6 +1,4 @@
 " Example Vim configuration.
-" Copy or symlink to ~/.vimrc or ~/_vimrc.
-
 set relativenumber
 set number
 set nocompatible                  " Must come first because it changes other options.
@@ -70,6 +68,9 @@ map L g_
 map J 5j
 map K 5k
 map ,xc :noh<cr>
+set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set nobackup
+set nowritebackup 
 " Uncomment to use Jamis Buck's file opening plugin
 " map <Leader>t :FuzzyFinderTextMate<Enter>
 

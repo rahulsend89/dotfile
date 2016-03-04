@@ -1,6 +1,4 @@
-" Make XVim use swedish keyboard.
 set alwaysuseinputsource
-" Show relative line numbers up and down.
 set relativenumber
 set number
 set clipboard=unnamed
@@ -9,16 +7,14 @@ set ignorecase
 set smartcase
 nmap <S-J> 5j
 nmap <S-K> 5k
+map <S-H> ^
+map <S-L> $
 inoremap <C-h> <left>
 inoremap <C-l> <right>
 inoremap <C-j> <down>
 inoremap <C-k> <up>
-Map $ to 4
 nmap <S-€> <S-$>
-nmap 0 0w
 nmap <S-U> <C-u>
-" toggle navigator, debug area, utilities, ToolBar  
-" l-left, b-bottom, r-right, t-top or toolbar
 map ,tl :xccmd toggleNavigatorsVisibility<CR>
 map ,tb :xccmd toggleDebuggerVisibility<CR>
 map ,tr :xccmd toggleUtilitiesVisibility<CR>

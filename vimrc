@@ -71,6 +71,7 @@ map J 5j
 map K 5k
 map ,xc :noh<cr>
 map <leader>v :e ~/.vimrc<cr>
+map <leader>c :e ~/.vim/install/config.sh<cr>
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set nobackup
 set nowritebackup 

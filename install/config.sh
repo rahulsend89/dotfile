@@ -27,5 +27,6 @@ brew install markdown
 brew install neovim/neovim/neovim
 brew install tree
 brew install wget
+brew install tmux
 
 exit 0

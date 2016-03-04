@@ -15,6 +15,12 @@ inoremap <C-j> <down>
 inoremap <C-k> <up>
 nmap <S-€> <S-$>
 nmap <S-U> <C-u>
+
+vmap <leader>[ <gv
+vmap <leader>] >gv
+nmap <leader>[ <<
+nmap <leader>] >>
+
 map ,tl :xccmd toggleNavigatorsVisibility<CR>
 map ,tb :xccmd toggleDebuggerVisibility<CR>
 map ,tr :xccmd toggleUtilitiesVisibility<CR>

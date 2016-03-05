@@ -29,6 +29,7 @@ Plugin 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
 Plugin 'sickill/vim-pasta' " context-aware pasting
 Plugin 'junegunn/goyo.vim' " distraction-free writing
 Plugin 'junegunn/limelight.vim' " focus tool. Good for presentating with vim
+Plugin 'christoomey/vim-tmux-navigator' " Tmux Nav
 
 " language-specific plugins
 Plugin 'gregsexton/MatchTag' " match tags in html, similar to paren support
@@ -388,6 +389,8 @@ let NERDTreeIgnore = ['\.js.map$']
 nmap <silent> <leader>k :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>y :NERDTreeFind<cr>
+
+vmap <C-c> :w !pbcopy<CR><CR> 
 
 " map fuzzyfinder (CtrlP) plugin
 " nmap <silent> <leader>t :CtrlP<cr>

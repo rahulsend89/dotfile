@@ -28,5 +28,7 @@ brew install neovim/neovim/neovim
 brew install tree
 brew install wget
 brew install tmux
+brew tap Goles/battery
+brew install battery
 
 exit 0

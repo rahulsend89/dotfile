@@ -7,30 +7,58 @@ filetype off
 " set rtp+=/usr/local/opt/fzf
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+" Add the g flag to search/replace by default
+set gdefault
+" Don’t add empty newlines at the end of files
+set binary
+set noeol
+
+" Centralize backups, swapfiles and undo history
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
+if exists("&undodir")
+    set undodir=~/.vim/undo
+endif
+
+" Don’t create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
+set encoding=utf8
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
+" CursorShape
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+" let mapleader=","
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'wikitopian/hardmode.git'
 Plugin 'tpope/vim-ragtag.git'
 Plugin 'tpope/vim-surround.git'
-Plugin 'tpope/vim-commentary.git'
+Plugin 'tomtom/tcomment_vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'  " fuzzy file finder, mapped to <leader>t
 Plugin 'Raimondi/delimitMate'
 Plugin 'tpope/vim-unimpaired' " mappings which are simply short normal mode aliases for commonly used ex commands
 Plugin 'benmills/vimux' " tmux integration for vim
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'tmux-plugins/vim-tmux'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'vim-airline/vim-airline'  " fancy statusline
 Plugin 'vim-airline/vim-airline-themes' 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'ervandew/supertab' " Perform all your vim insert mode completions with Tab
+Plugin 'Valloric/YouCompleteMe' " AutoCompletion
 Plugin 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
 Plugin 'sickill/vim-pasta' " context-aware pasting
 Plugin 'junegunn/goyo.vim' " distraction-free writing
 Plugin 'junegunn/limelight.vim' " focus tool. Good for presentating with vim
-Plugin 'christoomey/vim-tmux-navigator' " Tmux Nav
-
+Plugin 'terryma/vim-multiple-cursors' " Multiple cursor c-n , c-p , c-x
+Plugin 'ryanoasis/vim-devicons' " devicons
+Plugin 'szw/vim-tags' " Ctags Awesome ness
+Plugin 'tpope/vim-dispatch' " Old Vim dispatch Asysc task
 " language-specific plugins
 Plugin 'gregsexton/MatchTag' " match tags in html, similar to paren support
 Plugin 'othree/html5.vim' " html5 support
@@ -68,13 +96,14 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " activate spell-checking alternatives
 nmap ;s :set invspell spelllang=en<cr>
+nnoremap ; :
 
 " toggle invisible characters
 set invlist
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 highlight SpecialKey ctermbg=none " make the highlighting of tabs less annoying
 set showbreak=↪
-nmap <leader>l :set list!<cr>
+nmap <leader>; :set list!<cr>
 
 syntax enable                     " Turn on syntax highlighting.
 
@@ -89,6 +118,15 @@ set hidden                        " Handle multiple buffers better.
 
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif"
 
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
@@ -100,7 +138,9 @@ set incsearch                     " Highlight matches as you type.
 set hlsearch                      " Highlight matches.
 
 set wrap                          " Turn on line wrapping.
-set scrolloff=3                   " Show 3 lines of context around the cursor.
+set scrolloff=8                   " Show 3 lines of context around the cursor.
+set sidescrolloff=15
+set sidescroll=1
 
 set title                         " Set the terminal's title
 
@@ -131,6 +171,8 @@ noremap Q <NOP>
 set pastetoggle=<F6>
 " toggle paste mode
 map <leader>v :set paste!<cr>
+vnoremap gcc :TComment<cr>
+inoremap gcc :TComment<cr>
 
 inoremap jk <esc>
 
@@ -182,10 +224,15 @@ nmap <leader>. <c-^>
 " enable . command in visual mode
 vnoremap . :normal .<cr>
 
-map <silent> <C-h> :call WinMove('h')<cr>
-map <silent> <C-j> :call WinMove('j')<cr>
-map <silent> <C-k> :call WinMove('k')<cr>
-map <silent> <C-l> :call WinMove('l')<cr>
+map <leader>h              :call WinMove('h')<cr>
+map <leader>k              :call WinMove('k')<cr>
+map <leader>l              :call WinMove('l')<cr>
+map <leader>j              :call WinMove('j')<cr>
+
+nmap <left>  :3wincmd <<cr>
+nmap <right> :3wincmd ><cr>
+nmap <up>    :3wincmd +<cr>
+nmap <down>  :3wincmd -<cr>
 
 map <leader>wc :wincmd q<cr>
 
@@ -246,6 +293,15 @@ set nolazyredraw " don't redraw while executing macros
 set magic " Set magic on, for regex
 
 set showmatch " show matching braces/visu
+
+let g:ctrlp_clear_cache_on_exit = 0 " Do not clear filenames cache, to improve CtrlP startup
+let g:ctrlp_lazy_update = 350 " Set delay to prevent extra search
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' } " Use python fuzzy matcher for better performance
+let g:ctrlp_match_window_bottom = 0 " Show at top of window
+let g:ctrlp_max_files = 0 " Set no file limit, we are building a big project
+let g:ctrlp_switch_buffer = 'Et' " Jump to tab AND buffer if already open
+let g:ctrlp_open_new_file = 'r' " Open newly created files in the current window
+let g:ctrlp_open_multiple_files = 'ij' " Open multiple files in hidden buffers, and jump to the first one
 
 " Uncomment to use Jamis Buck's file opening plugin
 " map <Leader>t :FuzzyFinderTextMate<Enter>
@@ -429,3 +485,4 @@ let g:airline_symbols.whitespace = 'Ξ'
 
 " don't hide quotes in json files
 let g:vim_json_syntax_conceal = 0
+let g:vim_tags_use_vim_dispatch = 1

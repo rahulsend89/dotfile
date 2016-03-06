@@ -9,18 +9,13 @@ nmap <S-J> 5j
 nmap <S-K> 5k
 map <S-H> ^
 map <S-L> $
-inoremap <C-h> <left>
-inoremap <C-l> <right>
-inoremap <C-j> <down>
-inoremap <C-k> <up>
-nmap <S-€> <S-$>
-nmap <S-U> <C-u>
 
 vmap <leader>[ <gv
 vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
 
+map ,m  :xmenucmd  moveFocusToNextArea<CR>
 map ,tl :xccmd toggleNavigatorsVisibility<CR>
 map ,tb :xccmd toggleDebuggerVisibility<CR>
 map ,tr :xccmd toggleUtilitiesVisibility<CR>

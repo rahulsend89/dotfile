@@ -15,7 +15,7 @@ vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
 
-map ,m  :xmenucmd  moveFocusToNextArea<CR>
+map ,m  :xcmenucmd moveFocusToNextArea<CR>
 map ,tl :xccmd toggleNavigatorsVisibility<CR>
 map ,tb :xccmd toggleDebuggerVisibility<CR>
 map ,tr :xccmd toggleUtilitiesVisibility<CR>
@@ -31,7 +31,7 @@ nnoremap ,o :xccmd openQuickly<CR>
 nmap ,n :nissue<CR>
 nmap ,p :pissue<CR>
 nmap ,f :xccmd showInFinder<CR>
-nmap ,c :xmenucmd Clean<CR>
+nmap ,c :xcmenucmd Clean<CR>
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4

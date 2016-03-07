@@ -193,6 +193,18 @@ let g:python3_host_skip_check = 1
   let g:multi_cursor_prev_key='<C-p>'
   let g:multi_cursor_skip_key='<C-x>'
   let g:multi_cursor_quit_key='<Esc>'
+  
+  map <leader>h :call WinMove('h')<cr>
+  map <leader>k :call WinMove('k')<cr>
+  map <leader>l :call WinMove('l')<cr>
+  map <leader>j :call WinMove('j')<cr>
+
+  nmap <left>  :3wincmd <<cr>
+  nmap <right> :3wincmd ><cr>
+  nmap <up>    :3wincmd +<cr>
+  nmap <down>  :3wincmd -<cr>
+
+  map <leader>wc :wincmd q<cr>
 
 " Align blocks of text and keep them selected
   vmap < <gv
@@ -260,6 +272,22 @@ function! JavaScriptFold() "{{{
   setlocal foldlevel=99
   echo "hello"
   syn region foldBraces start=/{/ skip=/\(\/\/.*\)\|\(\/.*\/\)/ end=/}/ transparent fold keepend extend
+endfunction "}}}
+
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+function! WinMove(key) "{{{
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
 endfunction "}}}
 
 " function! HTMLFold() "{{{

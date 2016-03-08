@@ -48,6 +48,15 @@ let g:python3_host_skip_check = 1
   call dein#add('mhinz/vim-signify')
   call dein#add('Xuyuanp/nerdtree-git-plugin')
   call dein#add('https://github.com/jaxbot/github-issues.vim')
+  call dein#add('xolox/vim-session')
+  call dein#add('xolox/vim-misc')
+  call dein#add('tpope/vim-repeat')
+  call dein#add('easymotion/vim-easymotion')
+  call dein#add('mileszs/ack.vim')
+  call dein#add('rking/ag.vim')
+  call dein#add('tpope/vim-vinegar')
+  call dein#add('vim-scripts/taglist.vim')
+  call dein#add('majutsushi/tagbar')
 
   call dein#add('tpope/vim-repeat')
   call dein#add('benekastah/neomake')
@@ -178,6 +187,27 @@ let g:python3_host_skip_check = 1
   let g:unite_source_codesearch_command = '$HOME/bin/csearch'
   let g:table_mode_corner="|"
 
+  " session management
+  let g:session_directory = "~/.vim/session"
+  let g:session_autoload = "no"
+  let g:session_autosave = "no"
+  let g:session_command_aliases = 1
+  nnoremap <leader>so :OpenSession 
+  nnoremap <leader>ss :SaveSession 
+  nnoremap <leader>sd :DeleteSession<CR>
+  nnoremap <leader>sc :CloseSession<CR>
+
+  nnoremap <leader>[ :TlistToggle<CR>
+  nnoremap <leader>] :TagbarToggle<CR>
+
+  " easy motion rebinded
+  nmap <leader>f <Plug>(easymotion-f2)
+  nmap <leader>F <Plug>(easymotion-F2)
+
+  " Keep search matches in the middle of the window.
+  nnoremap n nzzzv
+  nnoremap N Nzzzv
+
 " }}}
 
 " System mappings  ----------------------------------------------------------{{{
@@ -201,7 +231,7 @@ let g:python3_host_skip_check = 1
   nmap cp :let @+ = expand("%") <cr>
 
 " ,f to format code, requires formatters: read the docs
-  noremap <leader>f :Autoformat<CR>
+  noremap <leader>i :Autoformat<CR>
   noremap <leader>TM :TableModeToggle<CR>
 " exit insert, dd line, enter insert
   inoremap <c-d> <esc>ddi

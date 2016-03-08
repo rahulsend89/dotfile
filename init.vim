@@ -116,12 +116,45 @@ let g:python3_host_skip_check = 1
   set conceallevel=0
 " block select not limited by shortest line
   set virtualedit=
-  set wildmenu
+
+  set wildmenu                      " Enhanced command line completion.
+  set wildmode=list:longest         " Complete files like a shell.
+  set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+  set wildignore+=*vim/backups*
+  set wildignore+=*sass-cache*
+  set wildignore+=*DS_Store*
+  set wildignore+=vendor/cache/**
+  set wildignore+=*.gem
+  set wildignore+=log/**
+  set wildignore+=tmp/**
+  set wildignore+=*.png,*.jpg,*.gif"
+
+  " remove extra whitespace
+  nmap <leader><space> :%s/\s\+$<cr>
+
+  " shortcut to save
+  nmap <leader>, :w<cr>
+
+  " Tab mappings.
+  map <leader>tt :tabnew<cr>
+  map <leader>te :tabedit
+  map <leader>tc :tabclose<cr>
+  map <leader>to :tabonly<cr>
+  map <leader>tn :tabnext<cr>
+  map <leader>tp :tabprevious<cr>
+  map <leader>tf :tabfirst<cr>
+  map <leader>tl :tablast<cr>
+  map <leader>tm :tabmove
+  
   set laststatus=2
   "set colorcolumn=100
   set wrap linebreak nolist
-  set wildmode=full
-" leader is ,
+
+  set wrap                          " Turn on line wrapping.
+  set scrolloff=8                   " Show 3 lines of context around the cursor.
+  set sidescrolloff=15
+  set sidescroll=1
+  " leader is ,
   " let mapleader = ','
   set undofile
   set undodir="$HOME/.VIM_UNDO_FILES"
@@ -176,6 +209,14 @@ let g:python3_host_skip_check = 1
   noremap L g_
   noremap J 5j
   noremap K 5k
+  noremap <leader>o :e ~/.vim/init.vim<CR>
+
+  " toggle invisible characters
+  set invlist
+  set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+  highlight SpecialKey ctermbg=none " make the highlighting of tabs less annoying
+  set showbreak=↪
+  nmap <leader>; :set list!<cr>
 " this is the best, let me tell you why
 " how annoying is that everytime you want to do something in vim
 " you have to do shift-; to get :, can't we just do ;?
@@ -213,6 +254,7 @@ let g:python3_host_skip_check = 1
   vnoremap <leader>d "_d
   vnoremap <c-/> :TComment<cr>
   map ,xc :noh<cr>
+  
 autocmd FileType typescript nmap <buffer> <Leader>T : <C-u>echo tsuquyomi#hint()<CR>
 
 nnoremap <leader>e :call <SID>SynStack()<CR>
@@ -235,7 +277,7 @@ command! -nargs=1 PlaceholderImgTag call s:PlaceholderImgTag(<f-args>)
 " Themes, Commands, etc  ----------------------------------------------------{{{
 " Theme
 syntax enable
-colorscheme OceanicNext
+colorscheme solarized
 set background=dark
 " set background=light
 " no need to fold things in markdown all the time
@@ -250,7 +292,7 @@ let g:instant_markdown_autostart = 0
 
 " Fold, gets it's own section  ----------------------------------------------{{{
 
-function! MyFoldText() " {{{
+function! MyFoldText()
     let line = getline(v:foldstart)
 
     let nucolwidth = &fdc + &number * &numberwidth
@@ -273,10 +315,7 @@ function! JavaScriptFold() "{{{
   echo "hello"
   syn region foldBraces start=/{/ skip=/\(\/\/.*\)\|\(\/.*\/\)/ end=/}/ transparent fold keepend extend
 endfunction "}}}
-
-
-" Window movement shortcuts
-" move to the window in the direction shown, or create a new window
+" Window movement shortcuts " move to the window in the direction shown, or create a new window
 function! WinMove(key) "{{{
     let t:curwin = winnr()
     exec "wincmd ".a:key
@@ -298,7 +337,7 @@ endfunction "}}}
 "   syn match HTMLCommentFold "<!--\_.\{-}-->" fold transparent extend
 " endfunction "}}}
 
-set foldtext=MyFoldText()
+set foldtext=MyFoldText() "{{{
 
 autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
 autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
@@ -544,5 +583,5 @@ set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h13
       call winrestview(l:winview)
   endfunction
   command JscsFix :call JscsFix()
-  noremap <leader>j :JscsFix<CR>
+  " noremap <leader>j :JscsFix<CR>
 "}}}

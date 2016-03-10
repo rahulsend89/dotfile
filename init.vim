@@ -183,7 +183,7 @@ let g:python3_host_skip_check = 1
   let g:indentLine_char='│'
   " enable deoplete
 
-  let g:neocomplete#enable_at_startup = 1
+  " let g:neocomplete#enable_at_startup = 1
   let g:unite_source_codesearch_command = '$HOME/bin/csearch'
   let g:table_mode_corner="|"
 
@@ -215,7 +215,7 @@ let g:python3_host_skip_check = 1
 " No need for ex mode
   nnoremap Q <nop>
 " recording macros is not my thing
-  map q <Nop>
+  " map q <Nop>
 " exit insert, dd line, enter insert
   inoremap <c-d> <esc>ddi
 " Navigate between display lines
@@ -233,8 +233,6 @@ let g:python3_host_skip_check = 1
 " ,f to format code, requires formatters: read the docs
   noremap <leader>i :Autoformat<CR>
   noremap <leader>TM :TableModeToggle<CR>
-" exit insert, dd line, enter insert
-  inoremap <c-d> <esc>ddi
   noremap H ^
   noremap L g_
   noremap J 5j

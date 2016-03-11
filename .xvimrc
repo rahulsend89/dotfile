@@ -32,6 +32,7 @@ nmap ,n :nissue<CR>
 nmap ,p :pissue<CR>
 nmap ,f :xccmd showInFinder<CR>
 nmap ,c :xcmenucmd Clean<CR>
+nmap ,cc Vf{%y
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4

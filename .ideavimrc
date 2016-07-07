@@ -9,6 +9,7 @@ set visualbell
 set wrapscan
 set clipboard
 set gdefault
+set surround
 map ,xc :noh<CR>
 map <S-J> 5j
 map <S-K> 5k

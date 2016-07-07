@@ -98,7 +98,7 @@ set diffopt+=vertical
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " activate spell-checking alternatives
-nmap ;s :set invspell spelllang=en<cr>
+nmap ;s :set invspell spelllang=en<CR>
 nnoremap ; :
 
 " toggle invisible characters
@@ -106,7 +106,7 @@ set invlist
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 highlight SpecialKey ctermbg=none " make the highlighting of tabs less annoying
 set showbreak=↪
-nmap <leader>; :set list!<cr>
+nmap <leader>; :set list!<CR>
 
 syntax enable                     " Turn on syntax highlighting.
 
@@ -163,19 +163,19 @@ set smartindent
 " vnoremap <M-j> :m '>+1<CR>gv=gv
 " vnoremap <M-k> :m '<-2<CR>gv=gv
 " markdown to html
-nmap <leader>md :%!markdown --html4tags <cr>
+nmap <leader>md :%!markdown --html4tags <CR>
 " remove extra whitespace
-nmap <leader><space> :%s/\s\+$<cr>
+nmap <leader><space> :%s/\s\+$<CR>
 " shortcut to save
-nmap <leader>, :w<cr>
+nmap <leader>, :w<CR>
 " disable Ex mode
 noremap Q <NOP>
 " set paste toggle
 set pastetoggle=<F6>
 " toggle paste mode
-map <leader>v :set paste!<cr>
-vnoremap gcc :TComment<cr>
-inoremap gcc :TComment<cr>
+map <leader>v :set paste!<CR>
+vnoremap gcc :TComment<CR>
+inoremap gcc :TComment<CR>
 
 inoremap jk <esc>
 
@@ -197,23 +197,23 @@ colorscheme solarized
 let g:solarized_termtrans=1
 
 " Tab mappings.
-map <leader>tt :tabnew<cr>
-map <leader>te :tabedit
-map <leader>tc :tabclose<cr>
-map <leader>to :tabonly<cr>
-map <leader>tn :tabnext<cr>
-map <leader>tp :tabprevious<cr>
-map <leader>tf :tabfirst<cr>
-map <leader>tl :tablast<cr>
-map <leader>tm :tabmove
+map <leader>tt :tabnew<CR>
+map <leader>te :tabedit<CR>
+map <leader>tc :tabclose<CR>
+map <leader>to :tabonly<CR>
+map <leader>tn :tabnext<CR>
+map <leader>tp :tabprevious<CR>
+map <leader>tf :tabfirst<CR>
+map <leader>tl :tablast<CR>
+map <leader>tm :tabmove<CR>
 map H ^
 map L g_
 map J 5j
 map K 5k
-map ,xc :noh<cr>
-noremap <space> :set hlsearch! hlsearch?<cr>
-map <leader>o :e ~/.vimrc<cr>
-map <leader>oc :e ~/.vim/install/config.sh<cr>
+map ,xc :noh<CR>
+noremap <space> :set hlsearch! hlsearch?<CR>
+map <leader>o :e ~/.vimrc<CR>
+map <leader>oc :e ~/.vim/install/config.sh<CR>
 set nobackup
 set nowritebackup 
 
@@ -225,27 +225,27 @@ nmap <leader>] >>
 " switch between current and last buffer
 nmap <leader>. <c-^>
 " enable . command in visual mode
-vnoremap . :normal .<cr>
+vnoremap . :normal .<CR>
 
-map <leader>h              :call WinMove('h')<cr>
-map <leader>k              :call WinMove('k')<cr>
-map <leader>l              :call WinMove('l')<cr>
-map <leader>j              :call WinMove('j')<cr>
+map <leader>h              :call WinMove('h')<CR>
+map <leader>k              :call WinMove('k')<CR>
+map <leader>l              :call WinMove('l')<CR>
+map <leader>j              :call WinMove('j')<CR>
 
-nmap <left>  :3wincmd <<cr>
-nmap <right> :3wincmd ><cr>
-nmap <up>    :3wincmd +<cr>
-nmap <down>  :3wincmd -<cr>
+nmap <left>  :3wincmd <<CR>
+nmap <right> :3wincmd ><CR>
+nmap <up>    :3wincmd +<CR>
+nmap <down>  :3wincmd -<CR>
 
-map <leader>wc :wincmd q<cr>
+map <leader>wc :wincmd q<CR>
 
 " toggle cursor line
-nnoremap <leader>i :set cursorline!<cr>
+nnoremap <leader>i :set cursorline!<CR>
 
 " helpers for dealing with other people's code
-nmap \t :set ts=4 sts=4 sw=4 noet<cr>
-nmap \s :set ts=4 sts=4 sw=4 et<cr>
-nmap <leader>w :setf textile<cr> :Goyo<cr>
+nmap \t :set ts=4 sts=4 sw=4 noet<CR>
+nmap \s :set ts=4 sts=4 sw=4 et<CR>
+nmap <leader>w :setf textile<CR> :Goyo<CR>
 
 " file type specific settings
 if has('autocmd') && !exists('autocommands_loaded')
@@ -255,7 +255,7 @@ if has('autocmd') && !exists('autocommands_loaded')
     autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
     autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
-    autocmd FileType *.md.js :call SyntasticReset<cr>
+    autocmd FileType *.md.js :call SyntasticReset<CR>
     autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
     autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
     autocmd FileType crontab setlocal nobackup nowritebackup
@@ -430,7 +430,7 @@ function! HtmlUnEscape()
   silent s/&amp;/\&/eg
 endfunction
 
-nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
+nnoremap <silent> <leader>u :call HtmlUnEscape()<CR>
 
 
 
@@ -445,24 +445,24 @@ let NERDTreeShowHidden=1
 " remove some files by extension
 let NERDTreeIgnore = ['\.js.map$']
 " Toggle NERDTree
-nmap <silent> <leader>k :NERDTreeToggle<cr>
+nmap <silent> <leader>k :NERDTreeToggle<CR>
 " expand to the path of the file in the current buffer
-nmap <silent> <leader>y :NERDTreeFind<cr>
+nmap <silent> <leader>y :NERDTreeFind<CR>
 
 vmap <C-c> :w !pbcopy<CR><CR> 
 
 " map fuzzyfinder (CtrlP) plugin
-" nmap <silent> <leader>t :CtrlP<cr>
-nmap <silent> <leader>r :CtrlPBuffer<cr>
+" nmap <silent> <leader>t :CtrlP<CR>
+nmap <silent> <leader>r :CtrlPBuffer<CR>
 let g:ctrlp_map='<leader>t'
 let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'
 
-nmap <leader>m :MarkedOpen!<cr>
-nmap <leader>mq :MarkedQuit<cr>
+nmap <leader>m :MarkedOpen!<CR>
+nmap <leader>mq :MarkedQuit<CR>
 
 " toggle Limelight
-nmap <leader>f :Limelight!!<cr>
+nmap <leader>f :Limelight!!<CR>
 
 " air-line
 let g:airline_powerline_fonts = 1

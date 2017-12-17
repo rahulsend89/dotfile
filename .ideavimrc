@@ -15,3 +15,5 @@ map <S-J> 5j
 map <S-K> 5k
 map <S-H> ^
 map <S-L> $
+map vw vaw
+map cw caw

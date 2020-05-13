@@ -1,3 +1,14 @@
+" Selected IntelliSpace modules
+source ~/intelli-space/spacemacs.vim
+source ~/intelli-space/extra.vim
+source ~/intelli-space/major.vim
+source ~/intelli-space/hybrid.vim
+
+" My own vim commands
+nnoremap Y y$
+let mapleader=","
+set easymotion
+set multiple-cursors                  "<A+c> <A+x> <A+a>
 set hlsearch
 set ignorecase
 set incsearch

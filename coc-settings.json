@@ -1,12 +1,44 @@
 {
-  "suggest.noselect": false,
-  "coc.preferences.formatOnSaveFiletypes": [
+  "diagnostic.errorSign": "",
+  "diagnostic.warningSign": "",
+  "diagnostic.infoSign": "",
+  "diagnostic.hintSign": "ﯦ",
+  "diagnostic.checkCurrentLine": true,
+  "eslint.enable": false,
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": false,
+  "eslint.filetypes": [
     "javascript",
-    "typescript",
-    "typescriptreact",
-    "json",
     "javascriptreact",
+    "typescript",
     "typescript.tsx",
-    "graphql"
-  ]
+    "typescriptreact",
+    "vue"
+  ],
+
+  "javascript.format.enabled": false,
+  "javascript.showUnused": false,
+  "javascript.suggestionActions.enabled": false,
+  "javascript.validate.enable": false,
+  "prettier.disableLanguages": ["javascript"],
+  "prettier.singleQuote": true,
+  "css.validate": false,
+  "coc.preferences.noselect": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    //"javascript",
+    "javascriptreact",
+    "json",
+    "ruby",
+    "typescript",
+    "typescript.tsx",
+    "typescriptreact"
+  ],
+  "snippets.extends": {
+    "vue": ["javascript", "typescript", "html", "css"]
+  },
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  }
 }

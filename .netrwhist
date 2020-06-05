@@ -1,3 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =1
-let g:netrw_dirhist_1='/Users/rahulm3/.vim'
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/Users/rahulm3/.vim'
+let g:netrw_dirhist_3='/Users/rahulm3/Documents/Arthrexact/arthrexvip'
+let g:netrw_dirhist_2='/Users/rahulm3/Documents/Arthrexact/arthrexvip/test'
+let g:netrw_dirhist_1='/Users/rahulm3/Documents/Arthrexact/arthrexvip'
+let g:netrw_dirhist_0='/Users/rahulm3'
+let g:netrw_dirhist_9='/Users/rahulm3/Documents/Arthrexact/arthrexvip'
+let g:netrw_dirhist_8='/Users/rahulm3'
+let g:netrw_dirhist_7='/Users/rahulm3/Documents/Arthrexact/arthrexvip'
+let g:netrw_dirhist_6='/Users/rahulm3/Documents/Arthrexact/arthrexvip/views/components/viewer'
+let g:netrw_dirhist_5='/Users/rahulm3/Documents/Arthrexact/arthrexvip/views/components'

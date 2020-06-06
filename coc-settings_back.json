@@ -1,0 +1,44 @@
+{
+  "diagnostic.errorSign": "",
+  "diagnostic.warningSign": "",
+  "diagnostic.infoSign": "",
+  "diagnostic.hintSign": "ﯦ",
+  "diagnostic.checkCurrentLine": true,
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescript.tsx",
+    "typescriptreact",
+    "vue"
+  ],
+
+  "javascript.format.enabled": false,
+  "javascript.showUnused": false,
+  "javascript.suggestionActions.enabled": false,
+  "javascript.validate.enable": false,
+  "prettier.disableLanguages": [],
+  "prettier.singleQuote": true,
+  "css.validate": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "ruby",
+    "typescript",
+    "typescript.tsx",
+    "typescriptreact"
+  ],
+  "snippets.extends": {
+    "vue": ["javascript", "typescript", "html", "css"]
+  },
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  }
+}
+

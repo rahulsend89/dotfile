@@ -21,13 +21,13 @@ Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-obsession'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
+Plug 'airblade/vim-rooter'
 Plug 'iamcco/coc-angular'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -40,10 +40,6 @@ Plug 'xolox/vim-misc'
 Plug 'suan/vim-instant-markdown'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/unite-outline'
-Plug 'ujihisa/unite-colorscheme'
-Plug 'junkblocker/unite-codesearch'
 Plug 'jreybert/vimagit'
 Plug 'itchyny/lightline.vim'
 Plug 'jacoborus/tender.vim'
@@ -53,6 +49,11 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'godlygeek/tabular'
 Plug 'Yggdroot/indentLine'
+Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+ " See what keys do like in emacs
+ Plug 'liuchengxu/vim-which-key'
+ " Zen mode
+ Plug 'junegunn/goyo.vim'
 "Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -63,22 +64,45 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 " Initialize plugin system
 call plug#end()
 
-let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
-if !filereadable(autoload_plug_path)
-  silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
-        \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
-  autocmd VimEnter * PlugInstall --sync | exe 'source' stdpath('config') . '/init.vim'
-endif
-unlet autoload_plug_path
+" let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
+" if !filereadable(autoload_plug_path)
+"   silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
+"         \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+"   autocmd VimEnter * PlugInstall --sync | exe 'source' stdpath('config') . '/init.vim'
+" endif
+" unlet autoload_plug_path
 
-call plug#begin(stdpath('data') . '/plugged')
+" call plug#begin(stdpath('data') . '/plugged')
 
 if executable('ag')
   let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
 let mapleader = "\<Space>"
-nnoremap <silent> <expr> <Leader>op g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+" Make Ranger replace netrw and be the file explorer
+let g:rnvimr_ex_enable = 1
+let g:rnvimr_draw_border = 1
+" Make Ranger to be hidden after picking a file
+let g:rnvimr_pick_enable = 1
+" Make Neovim to wipe the buffers corresponding to the files deleted by Ranger
+let g:rnvimr_bw_enable = 1
+" nmap <leader>r :RnvimrToggle<CR>
+let g:rnvimr_ranger_cmd = 'ranger --cmd="set column_ratios 1,1"'
+            " \ --cmd="set draw_borders separators"'
+let g:rnvimr_layout = { 'relative': 'editor',
+            \ 'width': float2nr(round(0.6 * &columns)),
+            \ 'height': float2nr(round(0.6 * &lines)),
+            \ 'col': float2nr(round(0.2 * &columns)),
+            \ 'row': float2nr(round(0.2 * &lines)),
+            \ 'style': 'minimal' }
+let g:rnvimr_presets = [
+            \ {'width': 0.800, 'height': 0.800}]
+
+let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
+"let g:NERDTreeHijackNetrw = 0 // add this line if you use NERDTree
+let g:ranger_map_keys = 0
+
+
 let NERDTreeShowHidden=1
 let g:NERDTreeWinSize=45
 let g:NERDTreeQuitOnOpen=0
@@ -134,8 +158,6 @@ highlight IncSearch term=reverse cterm=reverse ctermfg=7 ctermbg=0 guifg=Black g
 highlight Comment cterm=italic gui=italic
 
 
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
 
 " open NERDTree automatically
 "autocmd StdinReadPre * let s:std_in=1
@@ -169,9 +191,6 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " ctrlp
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-" j/k will move virtual lines (lines that wrap)
-noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 set smarttab
 set cindent
@@ -272,28 +291,6 @@ else
   colorscheme NeoSolarized
 endif
 
-
-
-
-
-" sync open file with NERDTree
-" " Check if NERDTree is open or active
-" function! IsNERDTreeOpen()        
-"     return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-" endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-" function! SyncTree()
-"   if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-"     NERDTreeFind
-"     wincmd p
-"   endif
-" endfunction
-
-" Highlight currently open buffer in NERDTree
-" autocmd BufEnter * call SyncTree()
-
 " coc config Completetion of concur
 " let g:coc_global_extensions = [
 "   \ 'coc-snippets',
@@ -338,16 +335,6 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
 " Use K to show documentation in preview window
 " nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -362,13 +349,6 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for rename current word
-nmap <F2> <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -377,24 +357,7 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-d> <Plug>(coc-range-select)
-xmap <silent> <C-d> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -407,27 +370,6 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Using CocList
-" Show all diagnostics
-"nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-"nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-"nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-"nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-"nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-" Do default action for previous item.
-"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-"nnoremap <silent> <space>p  :<C-u>CocListResume<CR> 
-
-
-nnoremap <expr> n  'Nn'[v:searchforward].'zvzz'
-nnoremap <expr> N  'nN'[v:searchforward].'zvzz'
 
 
 " wild stuff
@@ -457,12 +399,6 @@ set showmode
 set number
 " set relativenumber
 
-map H ^
-map L g_
-map J 5j
-map K 5k
-map ,xc :noh<CR>
-vmap <C-c> :w !pbcopy<CR><CR> 
 set laststatus=2
 " set colorcolumn=100
 
@@ -482,7 +418,6 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=.idea'
 "command! FZF FloatermNew fzf
 cnoreabbrev Ack Ack!
-silent! nmap <leader>pf :GFiles<CR>
 " nnoremap <Leader>pf :Files<CR>
 " nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 set grepprg=rg
@@ -493,26 +428,6 @@ command! -bang -nargs=* Rg
       \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
       \   fzf#vim#with_preview(), <bang>0)
 
-silent! nmap <leader>pt :Tags<CR>
-nnoremap <leader>ss :Rg<CR>
-nnoremap <leader>sp :Ack!<Space> 
-silent! nmap <leader>fr :History<CR>
-silent! nmap <leader>bb :Buffers<CR>
-silent! nmap <leader>sc :Commits<CR>
-silent! nmap <leader>sk :Maps<CR>
-nnoremap <silent><leader>gb  :Git blame<cr>
-map <silent><leader>q :q<CR>
-map <silent><leader>w :w<CR>
-cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-nnoremap <silent><leader>gs  :G<cr>
-nnoremap <silent><leader>gc  :Gcommit<cr>
-nnoremap <silent><leader>gp  :GPush<cr>
-nnoremap <silent><leader>gd  :Gdiffsplit<cr>
-nnoremap <leader>cr :CocRestart<cr>
-nnoremap <leader>pv :call ToggleNetrw()<CR>
-nmap <leader>gh :diffget //3<CR>
-nmap <leader>gf :diffget //2<CR>
-nmap <leader>vr :source %<CR>
 " Always enable preview window on the right with 60% width
 let g:fzf_preview_window = 'right:60%'
 
@@ -640,15 +555,7 @@ let g:EasyMotion_use_smartsign_us  = 1
 let g:EasyMotion_use_upper         = 0
 let g:EasyMotion_skipfoldedline    = 0
 
-nmap <leader>f <Plug>(easymotion-s2)
 
-" Keep search matches in the middle of the window.
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-
-" Plugin: vim-startify
-nnoremap <leader>st :Startify<cr>
 
 let g:startify_change_to_dir       = 0
 let g:startify_custom_header       = 'startify#pad(startify#fortune#boxed())'
@@ -659,84 +566,13 @@ let g:startify_use_env             = 1
 
 
 cnoreabbrev <expr> x getcmdtype() == ":" && getcmdline() == 'x' ? 'Sayonara' : 'x'
-nmap <leader>t :term<cr>
-nmap <leader>bn :bnext<CR>
-nmap <leader>bp :bprevious<CR>
-nmap <leader>bd :bdelete<CR>
 
 " session management
 let g:session_directory = "~/.vim/session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
-nnoremap <leader>po :OpenSession 
-nnoremap <leader>ps :SaveSession 
-nnoremap <leader>pd :DeleteSession<CR>
-nnoremap <leader>pc :CloseSession<CR>
 
-
-" unite ---------------------------------------------------------------------{{{
-"
-let g:unite_data_directory='~/.nvim/.cache/unite'
-let g:unite_source_history_yank_enable=1
-let g:unite_prompt='» '
-let g:unite_source_rec_async_command =['ag', '--follow', '--nocolor', '--nogroup','--hidden', '-g', '', '--ignore', '.git', '--ignore', '*.png', '--ignore', 'lib']
-
-nnoremap <silent> <c-p> :Unite -auto-resize -start-insert -direction=botright file_rec/async<CR>
-nnoremap <silent> <leader>c :Unite -auto-resize -start-insert -direction=botright colorscheme<CR>
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-
-function! s:unite_settings() "{{{
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction "}}}
-
-
-let g:unite_source_menu_menus = {} " Useful when building interfaces at appropriate places
-let g:unite_source_menu_menus.git = {
-  \ 'description' : 'Fugitive interface',
-  \}
-let g:unite_source_menu_menus.git.command_candidates = [
-  \[' git status', 'Gstatus'],
-  \[' git diff', 'Gvdiff'],
-  \[' git commit', 'Gcommit'],
-  \[' git stage/add', 'Gwrite'],
-  \[' git checkout', 'Gread'],
-  \[' git rm', 'Gremove'],
-  \[' git cd', 'Gcd'],
-  \[' git push', 'exe "Git! push " input("remote/branch: ")'],
-  \[' git pull', 'exe "Git! pull " input("remote/branch: ")'],
-  \[' git pull rebase', 'exe "Git! pull --rebase " input("branch: ")'],
-  \[' git checkout branch', 'exe "Git! checkout " input("branch: ")'],
-  \[' git fetch', 'Gfetch'],
-  \[' git merge', 'Gmerge'],
-  \[' git browse', 'Gbrowse'],
-  \[' git head', 'Gedit HEAD^'],
-  \[' git parent', 'edit %:h'],
-  \[' git log commit buffers', 'Glog --'],
-  \[' git log current file', 'Glog -- %'],
-  \[' git log last n commits', 'exe "Glog -" input("num: ")'],
-  \[' git log first n commits', 'exe "Glog --reverse -" input("num: ")'],
-  \[' git log until date', 'exe "Glog --until=" input("day: ")'],
-  \[' git log grep commits',  'exe "Glog --grep= " input("string: ")'],
-  \[' git log pickaxe',  'exe "Glog -S" input("string: ")'],
-  \[' git index', 'exe "Gedit " input("branchname\:filename: ")'],
-  \[' git mv', 'exe "Gmove " input("destination: ")'],
-  \[' git grep',  'exe "Ggrep " input("string: ")'],
-  \[' git prompt', 'exe "Git! " input("command: ")'],
-  \] " Append ' --' after log to get commit info commit buffers
-nnoremap <silent> <Leader>g :Unite -direction=botright -silent -buffer-name=git -start-insert menu:git<CR>
-noremap <silent> <leader>gg :Magit<CR>
-noremap <silent> <leader>lg :FloatermNew lazygit<CR>
-let g:magit_default_fold_level = 0
-"" Align blocks of text and keep them selected
-vmap < <gv
-vmap > >gv
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
 
 
 " Window movement shortcuts " move to the window in the direction shown, or create a new window
@@ -846,19 +682,245 @@ function! s:OpenTab(reload, detached, port)
   call system(open_tab_command)
 endfunction
 
-let g:unite_source_menu_menus.browser = {
-  \ 'description' : 'Fugitive interface',
-  \}
-let g:unite_source_menu_menus.browser.command_candidates = [
-  \['What 8080', 'B8080'],
-  \['Angular', 'B4200'],
-  \['GraphQl 3000', 'B3000'],
-  \['pserver 8000', 'B3000'],
-  \] " Append ' --' after log to get commit info commit buffers
-nnoremap <silent> <Leader>bo :Unite -direction=botright -silent -buffer-name=browser -start-insert menu:browser<CR>
 
 command! B8080 call <sid>OpenTab(1, 0,8080)
 command! B4200 call <sid>OpenTab(0, 1,4200)
 command! B3000 call <sid>OpenTab(0, 1,3000)
 command! B8000 call <sid>OpenTab(0, 1,8000)
-nnoremap <leader>ob cr>
+" Create map to add keys to
+let g:which_key_map =  {}
+" Define a separator
+let g:which_key_sep = '→'
+" set timeoutlen=100
+
+
+" Not a fan of floating windows for this
+let g:which_key_use_floating_win = 0
+
+" Change the colors if you want
+highlight default link WhichKey          Operator
+highlight default link WhichKeySeperator DiffAdded
+highlight default link WhichKeyGroup     Identifier
+highlight default link WhichKeyDesc      Function
+
+" Hide status line
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+
+
+ "Because of some bug command+/ dont work so i send ++ keys from alacritty
+vmap ++ <plug>NERDCommenterToggle
+nmap ++ <plug>NERDCommenterToggle
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+nmap <F2> <Plug>(coc-rename)
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+nnoremap <expr> n  'Nn'[v:searchforward].'zvzz'
+nnoremap <expr> N  'nN'[v:searchforward].'zvzz'
+map H ^
+map L g_
+map J 5j
+map K 5k
+map ,xc :noh<CR>
+vmap <C-c> :w !pbcopy<CR><CR> 
+cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+" nmap <leader>gh :diffget //3<CR>
+" nmap <leader>gf :diffget //2<CR>
+vmap < <gv
+vmap > >gv
+" Keep search matches in the middle of the window.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+" Plugin: vim-startify
+" Map leader to which_key
+nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+" Single mappings
+let g:which_key_map['/'] = [ ':Commentary'  , 'comment' ]
+let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
+let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
+let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
+let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
+let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
+let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
+let g:which_key_map['f'] = [ '<Plug>(easymotion-s2)'      , 'easymotion' ]
+let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
+let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
+let g:which_key_map['r'] = [ ':source %'                  , 'refresh vimrc' ]
+let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
+let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
+let g:which_key_map['W'] = [ 'w'                          , 'write' ]
+let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
+silent! nmap <leader>fr :History<CR>
+
+" Group mappings
+" P is for actions
+let g:which_key_map.p = {
+      \ 'name' : '+Session' ,
+      \ 'o' : ['OpenSession'            , 'Open Session'],
+      \ 's' : ['SaveSession'            , 'Save Session'],
+      \ 'd' : ['DeleteSession'          , 'Delete Session'],
+      \ 'c' : ['CloseSession'           , 'Close Session'],
+      \ 'v' : [':call ToggleNetrw()'    , 'Open Netrw'],
+      \ }
+" a is for actions
+let g:which_key_map.a = {
+      \ 'name' : '+actions' ,
+      \ 'n' : [':set nonumber!'          , 'line-numbers'],
+      \ 'r' : [':set norelativenumber!'  , 'relative line nums'],
+      \ 's' : [':let @/ = ""'            , 'remove search highlight'],
+      \ 't' : [':FloatermToggle'         , 'terminal'],
+      \ 'v' : [':Vista!!'                , 'tag viewer'],
+      \ }
+
+let g:which_key_map.o = {
+      \ 'name' : '+Browser' ,
+      \'v' : ['What 8080'              , 'B8080'],
+      \'a' :  ['Angular'               , 'B4200'],
+      \'g' : ['GraphQl 3000'           , 'B3000'],
+      \'py': ['pserver 8000'           , 'B3000'],
+      \'p' : ['NERDTreeToggle'         , 'File explorer']
+      \ }
+" b is for buffer
+let g:which_key_map.b = {
+      \ 'name' : '+buffer' ,
+      \ '1' : ['b1'        , 'buffer 1']        ,
+      \ '2' : ['b2'        , 'buffer 2']        ,
+      \ 'd' : ['bd'        , 'delete-buffer']   ,
+      \ 'f' : ['bfirst'    , 'first-buffer']    ,
+      \ 'h' : ['Startify'  , 'home-buffer']     ,
+      \ 'b' : [':Buffers'  , 'open buffers'],
+      \ 'l' : ['blast'     , 'last-buffer']     ,
+      \ 'n' : ['bnext'     , 'next-buffer']     ,
+      \ 'p' : ['bprevious' , 'previous-buffer'] ,
+      \ '?' : ['Buffers'   , 'fzf-buffer']      ,
+      \ }
+
+" s is for search
+let g:which_key_map.s = {
+      \ 'name' : '+search' ,
+      \ '/' : [':History/'              , 'history'],
+      \ ';' : [':Commands'              , 'commands'],
+      \ 'a' : [':Ag'                    , 'text Ag'],
+      \ 'b' : [':BLines'                , 'current buffer'],
+      \ 'B' : [':Buffers'               , 'open buffers'],
+      \ 'c' : [':Commits'               , 'commits'],
+      \ 'C' : [':BCommits'              , 'buffer commits'],
+      \ 'f' : [':Files'                 , 'files'],
+      \ 'g' : [':GFiles'                , 'git files'],
+      \ 'G' : [':GFiles?'               , 'modified git files'],
+      \ 'h' : [':History'               , 'file history'],
+      \ 'H' : [':History:'              , 'command history'],
+      \ 'l' : [':Lines'                 , 'lines'] ,
+      \ 'm' : [':Marks'                 , 'marks'] ,
+      \ 'M' : [':Maps'                  , 'normal maps'] ,
+      \ 'p':  [':Ack! '                 , 'search text ack'] ,
+      \ 'ht': [':Helptags'              , 'help tags'] ,
+      \ 's':  [':Rg'                    , 'search text fzf'],
+      \ 'sn': [':CocList snippets'      , 'snippets'],
+      \ 'S' : [':Colors'                , 'color schemes'],
+      \ 't' : [':Tags'                  , 'Search Tags'],
+      \ 'T' : [':BTags'                 , 'buffer tags'],
+      \ 'w' : [':Windows'               , 'search windows'],
+      \ 'y' : [':Filetypes'             , 'file types'],
+      \ 'z' : [':FZF'                   , 'FZF'],
+      \ }
+      " \ 's' : [':Snippets'     , 'snippets'],
+
+" g is for git
+let g:which_key_map.g = {
+      \ 'name' : '+git' ,
+      \'s' : ['Gstatus', '  git status '],
+      \'d' : ['Gvdiff', '  git diff '],
+      \'c' : ['Gcommit', '  git commit '],
+      \'w' : ['Gwrite', '  git stage/add '],
+      \'ch': ['Gread', '  git checkout '],
+      \'rm': ['Gremove', '  git rm '],
+      \'cd': ['Gcd', '  git cd '],
+      \'p' : ['exe "Git! push " input("remote/branch: ")', '  git push '],
+      \'P' : ['exe "Git! pull " input("remote/branch: ")', '  git pull '],
+      \'r' : ['exe "Git! pull --rebase " input("branch: ")', '  git pull rebase '],
+      \'cb': ['exe "Git! checkout " input("branch: ")', '  git checkout branch '],
+      \'f' : ['Gfetch', '  git fetch '],
+      \'m' : ['Gmerge', '  git merge '],
+      \'b' : ['Gblame', '  git blame '],
+      \'br': ['Gbrowse', '  git browse '],
+      \'h' : ['Gedit HEAD^', '  git head '],
+      \'up': ['edit %:h', '  git parent '],
+      \'bl': ['Glog --', '  git log commit buffers '],
+      \'l' : ['Glog -- %', '  git log current file '],
+      \'ll': ['exe "Glog -" input("num: ")', '  git log last n commits '],
+      \'lf': ['exe "Glog --reverse -" input("num: ")', '  git log first n commits '],
+      \'ld': ['exe "Glog --until=" input("day: ")', '  git log until date '],
+      \'lg': ['exe "Glog --grep= " input("string: ")',  '  git log grep commits '],
+      \'lp': ['exe "Glog -S" input("string: ")',  '  git log pickaxe '],
+      \'i' : ['exe "Gedit " input("branchname\:filename: ")', '  git index '],
+      \'g' : ['Magit', '  git Magit '],
+      \'gm': ['exe "Gmove " input("destination: ")', '  git mv '],
+      \'gr': ['exe "Ggrep " input("string: ")',  '  git grep '],
+      \'gp': ['exe "Git! " input("command: ")', '  git prompt '],
+      \ }
+
+" l is for language server protocol
+let g:which_key_map.l = {
+      \ 'name' : '+lsp' ,
+      \ '.' : [':CocConfig'                          , 'config'],
+      \ ';' : ['<Plug>(coc-refactor)'                , 'refactor'],
+      \ 'a' : ['<Plug>(coc-codeaction)'              , 'line action'],
+      \ 'A' : ['<Plug>(coc-codeaction-selected)'     , 'selected action'],
+      \ 'b' : [':CocNext'                            , 'next action'],
+      \ 'B' : [':CocPrev'                            , 'prev action'],
+      \ 'c' : [':CocList commands'                   , 'commands'],
+      \ 'd' : ['<Plug>(coc-definition)'              , 'definition'],
+      \ 'D' : ['<Plug>(coc-declaration)'             , 'declaration'],
+      \ 'e' : [':CocList extensions'                 , 'extensions'],
+      \ 'f' : ['<Plug>(coc-format-selected)'         , 'format selected'],
+      \ 'F' : ['<Plug>(coc-format)'                  , 'format'],
+      \ 'h' : ['<Plug>(coc-float-hide)'              , 'hide'],
+      \ 'i' : ['<Plug>(coc-implementation)'          , 'implementation'],
+      \ 'I' : [':CocList diagnostics'                , 'diagnostics'],
+      \ 'j' : ['<Plug>(coc-float-jump)'              , 'float jump'],
+      \ 'l' : ['<Plug>(coc-codelens-action)'         , 'code lens'],
+      \ 'n' : ['<Plug>(coc-diagnostic-next)'         , 'next diagnostic'],
+      \ 'N' : ['<Plug>(coc-diagnostic-next-error)'   , 'next error'],
+      \ 'o' : ['<Plug>(coc-openlink)'                , 'open link'],
+      \ 'O' : [':CocList outline'                    , 'outline'],
+      \ 'p' : ['<Plug>(coc-diagnostic-prev)'         , 'prev diagnostic'],
+      \ 'P' : ['<Plug>(coc-diagnostic-prev-error)'   , 'prev error'],
+      \ 'q' : ['<Plug>(coc-fix-current)'             , 'quickfix'],
+      \ 'r' : ['<Plug>(coc-rename)'                  , 'rename'],
+      \ 'R' : ['<Plug>(coc-references)'              , 'references'],
+      \ 's' : [':CocList -I symbols'                 , 'references'],
+      \ 'S' : [':CocList snippets'                   , 'snippets'],
+      \ 't' : ['<Plug>(coc-type-definition)'         , 'type definition'],
+      \ 'u' : [':CocListResume'                      , 'resume list'],
+      \ 'U' : [':CocUpdate'                          , 'update CoC'],
+      \ 'z' : [':CocDisable'                         , 'disable CoC'],
+      \ 'Z' : [':CocEnable'                          , 'enable CoC'],
+      \ }
+
+" t is for terminal
+let g:which_key_map.t = {
+      \ 'name' : '+terminal' ,
+      \ ';' : [':FloatermNew --wintype=popup --height=6'        , 'terminal'],
+      \ 'f' : [':FloatermNew fzf'                               , 'fzf'],
+      \ 'g' : [':FloatermNew lazygit'                           , 'git'],
+      \ 'd' : [':FloatermNew lazydocker'                        , 'docker'],
+      \ 'n' : [':FloatermNew node'                              , 'node'],
+      \ 'p' : [':FloatermNew python'                            , 'python'],
+      \ 'r' : [':FloatermNew ranger'                            , 'ranger'],
+      \ 't' : [':FloatermToggle'                                , 'toggle'],
+      \ 'h' : [':FloatermNew htop'                              , 'htop'],
+      \ }
+
+call which_key#register('<Space>', "g:which_key_map")
+

@@ -86,7 +86,6 @@ let g:rnvimr_draw_border = 1
 let g:rnvimr_pick_enable = 1
 " Make Neovim to wipe the buffers corresponding to the files deleted by Ranger
 let g:rnvimr_bw_enable = 1
-" nmap <leader>r :RnvimrToggle<CR>
 let g:rnvimr_ranger_cmd = 'ranger --cmd="set column_ratios 1,1"'
             " \ --cmd="set draw_borders separators"'
 let g:rnvimr_layout = { 'relative': 'editor',
@@ -418,8 +417,6 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=.idea'
 "command! FZF FloatermNew fzf
 cnoreabbrev Ack Ack!
-" nnoremap <Leader>pf :Files<CR>
-" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 set grepprg=rg
 
 let g:grep_cmd_opts = '--line-numbers --noheading --ignore-dir=log --ignore-dir=tmp'
@@ -517,16 +514,6 @@ set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif"
 
-" Tab mappings.
-" map <leader>wt :tabnew<cr>
-map <leader>we :tabedit<cr>
-map <leader>wd :tabclose<cr>
-map <leader>wo :tabonly<cr>
-map <leader>wn :tabnext<cr>
-map <leader>wp :tabprevious<cr>
-map <leader>wf :tabfirst<cr>
-map <leader>wl :tablast<cr>
-map <leader>wm :tabmove
 
 autocmd BufReadPost *
       \ if line("'\"") > 0 && line ("'\"") <= line("$") |
@@ -540,8 +527,6 @@ autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
 autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 
 
-nnoremap <leader>[ :TlistToggle<CR>
-nnoremap <leader>] :TagbarToggle<CR>
 
 " easy motion rebinded
 let g:EasyMotion_do_mapping        = 0
@@ -655,8 +640,6 @@ function! NetrwOnBufferOpen()
 endfun
 
 
-
-
 " Chrome Cli bindings
 "--------------------
 
@@ -682,27 +665,11 @@ function! s:OpenTab(reload, detached, port)
   call system(open_tab_command)
 endfunction
 
-
+" open google tabs using quick mapping :S
 command! B8080 call <sid>OpenTab(1, 0,8080)
 command! B4200 call <sid>OpenTab(0, 1,4200)
 command! B3000 call <sid>OpenTab(0, 1,3000)
 command! B8000 call <sid>OpenTab(0, 1,8000)
-" Create map to add keys to
-let g:which_key_map =  {}
-" Define a separator
-let g:which_key_sep = '→'
-" set timeoutlen=100
-
-
-" Not a fan of floating windows for this
-let g:which_key_use_floating_win = 0
-
-" Change the colors if you want
-highlight default link WhichKey          Operator
-highlight default link WhichKeySeperator DiffAdded
-highlight default link WhichKeyGroup     Identifier
-highlight default link WhichKeyDesc      Function
-
 " Hide status line
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
@@ -714,13 +681,6 @@ vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-nmap <F2> <Plug>(coc-rename)
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 nmap <silent> <C-d> <Plug>(coc-range-select)
 xmap <silent> <C-d> <Plug>(coc-range-select)
@@ -740,13 +700,29 @@ vmap > >gv
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
-" Plugin: vim-startify
-" Map leader to which_key
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+
+" Create map to add keys to
+let g:which_key_map =  {}
+" Define a separator
+let g:which_key_sep = '→'
+" set timeoutlen=100
+
+
+" Not a fan of floating windows for this
+let g:which_key_use_floating_win = 0
+
+" Change the colors if you want
+highlight default link WhichKey          Operator
+highlight default link WhichKeySeperator DiffAdded
+highlight default link WhichKeyGroup     Identifier
+highlight default link WhichKeyDesc      Function
+map <leader>r :source %<CR>
 " Single mappings
-let g:which_key_map['/'] = [ ':Commentary'  , 'comment' ]
-let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
+let g:which_key_map['/'] = [ ':Commentary'                , 'comment' ]
+let g:which_key_map['['] = [ ':TlistToggle'               , 'tlist toggle' ]
+let g:which_key_map[']'] = [ ':TagbarToggle'              , 'tagbar toggle' ]
 let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
 let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
@@ -755,7 +731,6 @@ let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
 let g:which_key_map['f'] = [ '<Plug>(easymotion-s2)'      , 'easymotion' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
 let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
-let g:which_key_map['r'] = [ ':source %'                  , 'refresh vimrc' ]
 let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
 let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
 let g:which_key_map['W'] = [ 'w'                          , 'write' ]
@@ -763,7 +738,17 @@ let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
 silent! nmap <leader>fr :History<CR>
 
 " Group mappings
-" P is for actions
+" w is for actions
+let g:which_key_map.w = {
+      \ 'name' : '+Tab' ,
+      \ 't' : [':tabedit'               , 'open tab'],
+      \ 'c' : [':tabclose'              , 'close tab'],
+      \ 'n' : [':tabnext'               , 'next tab'],
+      \ 'p' : [':tabprevious'           , 'previous tab'],
+      \ 'f' : [':tabfirst'              , 'first tab'],
+      \ 'l' : [':tablast'               , 'last tab'],
+      \ }
+" p is for actions
 let g:which_key_map.p = {
       \ 'name' : '+Session' ,
       \ 'o' : ['OpenSession'            , 'Open Session'],
@@ -870,6 +855,14 @@ let g:which_key_map.g = {
       \'gp': ['exe "Git! " input("command: ")', '  git prompt '],
       \ }
 
+" Why i added seperate language server bindings :/
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <F2> <Plug>(coc-rename)
 " l is for language server protocol
 let g:which_key_map.l = {
       \ 'name' : '+lsp' ,
@@ -911,7 +904,7 @@ let g:which_key_map.l = {
 " t is for terminal
 let g:which_key_map.t = {
       \ 'name' : '+terminal' ,
-      \ ';' : [':FloatermNew --wintype=popup --height=6'        , 'terminal'],
+      \ ';' : [':FloatermNew --wintype=popup --height=20'       , 'terminal'],
       \ 'f' : [':FloatermNew fzf'                               , 'fzf'],
       \ 'g' : [':FloatermNew lazygit'                           , 'git'],
       \ 'd' : [':FloatermNew lazydocker'                        , 'docker'],

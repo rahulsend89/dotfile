@@ -4,12 +4,12 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'joshdick/onedark.vim'
 Plug 'sainnhe/vim-color-forest-night'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 Plug 'icymind/NeoSolarized'
 Plug 'kaicataldo/material.vim'
 "Plug 'tsony-tsonev/nerdtree-git-plugin'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-startify'
@@ -52,10 +52,15 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'godlygeek/tabular'
 Plug 'Yggdroot/indentLine'
-Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+" Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 Plug 'unblevable/quick-scope'
 Plug 'metakirby5/codi.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'elzr/vim-json'
             \, { 'on': 'Codi' }
+Plug 'mcchrish/nnn.vim'
 " auto set indent settings
  " See what keys do like in emacs
  Plug 'liuchengxu/vim-which-key'
@@ -67,6 +72,24 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
+
+" Not sure if i want these settings :
+" let g:javascript_conceal_function             = "ƒ"
+" let g:javascript_conceal_null                 = "ø"
+" let g:javascript_conceal_this                 = "@"
+" let g:javascript_conceal_return               = "⇚"
+" let g:javascript_conceal_undefined            = "¿"
+" let g:javascript_conceal_NaN                  = "ℕ"
+" let g:javascript_conceal_prototype            = "¶"
+" let g:javascript_conceal_static               = "•"
+" let g:javascript_conceal_super                = "Ω"
+" let g:javascript_conceal_arrow_function       = "⇒"
+" let g:javascript_conceal_noarg_arrow_function = "🞅"
+" let g:javascript_conceal_underscore_arrow_function = "🞅"
+" augroup javascript_folding
+"     au!
+"     au FileType javascript setlocal foldmethod=syntax
+" augroup END
 
 " Initialize plugin system
 call plug#end()
@@ -81,72 +104,78 @@ call plug#end()
 
 " call plug#begin(stdpath('data') . '/plugged')
 
+" Opens the nnn window in a split
+let g:nnn#layout = { 'right': '~40%' } " or right, up, down
+let g:nnn#action = {
+      \ '<c-t>': 'tab split',
+      \ '<c-x>': 'split',
+      \ '<c-v>': 'vsplit' }
+
 if executable('ag')
   let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
 let mapleader = "\<Space>"
 " Make Ranger replace netrw and be the file explorer
-let g:rnvimr_ex_enable = 1
-let g:rnvimr_draw_border = 1
-" Make Ranger to be hidden after picking a file
-let g:rnvimr_pick_enable = 1
-" Make Neovim to wipe the buffers corresponding to the files deleted by Ranger
-let g:rnvimr_bw_enable = 1
-let g:rnvimr_ranger_cmd = 'ranger --cmd="set column_ratios 1,1"'
-            " \ --cmd="set draw_borders separators"'
-let g:rnvimr_layout = { 'relative': 'editor',
-            \ 'width': float2nr(round(0.6 * &columns)),
-            \ 'height': float2nr(round(0.6 * &lines)),
-            \ 'col': float2nr(round(0.2 * &columns)),
-            \ 'row': float2nr(round(0.2 * &lines)),
-            \ 'style': 'minimal' }
-let g:rnvimr_presets = [
-            \ {'width': 0.800, 'height': 0.800}]
+" let g:rnvimr_ex_enable = 1
+" let g:rnvimr_draw_border = 1
+" " Make Ranger to be hidden after picking a file
+" let g:rnvimr_pick_enable = 1
+" " Make Neovim to wipe the buffers corresponding to the files deleted by Ranger
+" let g:rnvimr_bw_enable = 1
+" let g:rnvimr_ranger_cmd = 'ranger --cmd="set column_ratios 1,1"'
+"             " \ --cmd="set draw_borders separators"'
+" let g:rnvimr_layout = { 'relative': 'editor',
+"             \ 'width': float2nr(round(0.6 * &columns)),
+"             \ 'height': float2nr(round(0.6 * &lines)),
+"             \ 'col': float2nr(round(0.2 * &columns)),
+"             \ 'row': float2nr(round(0.2 * &lines)),
+"             \ 'style': 'minimal' }
+" let g:rnvimr_presets = [
+"             \ {'width': 0.800, 'height': 0.800}]
 
-let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
-"let g:NERDTreeHijackNetrw = 0 // add this line if you use NERDTree
-let g:ranger_map_keys = 0
+" let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
+" let g:ranger_map_keys = 0
 
 
-let NERDTreeShowHidden=1
-let g:NERDTreeWinSize=45
-let g:NERDTreeQuitOnOpen=0
-let g:NERDTreeAutoDeleteBuffer=1
+" let NERDTreeShowHidden=1
+" let g:NERDTreeWinSize=45
+" let g:NERDTreeQuitOnOpen=0
+" let g:NERDTreeAutoDeleteBuffer=1
 
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-let g:NERDTreeIgnore = ['^node_modules$', '\.git$[[dir]]']
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
-au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
-" indentLine
-let g:indentLine_char = '▏'
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.png$', '\.jpg$', '\.gif$', '\.mp3$', '\.ogg$', '\.mp4$',
-      \ '\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$',
-      \ '\.rar$']
-let NERDTreeMinimalUI = 1
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-let g:NERDTreeGitStatusWithFlags = 1
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:NERDTreeGitStatusNodeColorization = 1
-let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "✹",
-      \ "Staged"    : "✚",
-      \ "Untracked" : "",
-      \ "Renamed"   : "➜",
-      \ "Unmerged"  : "═",
-      \ "Deleted"   : "✖",
-      \ "Dirty"     : "✹",
-      \ "Clean"     : "✔︎",
-      \ 'Ignored'   : '☒',
-      \ "Unknown"   : ""
-      \ }
+" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+"   exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+"   exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+" endfunction
+" let g:NERDTreeIgnore = ['^node_modules$', '\.git$[[dir]]']
+" autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
+" au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
+" " indentLine
+" let g:indentLine_char = '▏'
+" let NERDTreeShowHidden=1
+" let NERDTreeIgnore=['\.png$', '\.jpg$', '\.gif$', '\.mp3$', '\.ogg$', '\.mp4$',
+"       \ '\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$',
+"       \ '\.rar$']
+" let NERDTreeMinimalUI = 1
+" let g:NERDTreeDirArrowExpandable = ''
+" let g:NERDTreeDirArrowCollapsible = ''
+" let g:NERDTreeGitStatusWithFlags = 1
+" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+" let g:NERDTreeGitStatusNodeColorization = 1
+" let g:NERDTreeIndicatorMapCustom = {
+"       \ "Modified"  : "✹",
+"       \ "Staged"    : "✚",
+"       \ "Untracked" : "",
+"       \ "Renamed"   : "➜",
+"       \ "Unmerged"  : "═",
+"       \ "Deleted"   : "✖",
+"       \ "Dirty"     : "✹",
+"       \ "Clean"     : "✔︎",
+"       \ 'Ignored'   : '☒',
+"       \ "Unknown"   : ""
+"       \ }
 
 " Vim DevIcons
 exe 'source' stdpath('config') . '/extras/devicons.vim'
@@ -753,7 +782,7 @@ let g:sneak#label = 1
 let g:which_key_map =  {}
 " Define a separator
 let g:which_key_sep = '→'
-set timeoutlen=100
+set timeoutlen=500
 
 
 " Not a fan of floating windows for this
@@ -767,6 +796,8 @@ highlight default link WhichKeyDesc      Function
 " Default highlighting (see help :highlight and help :highlight-link)
 highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
 highlight link multiple_cursors_visual Visual
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+
 map <leader>r :source %<CR>
 " Single mappings
 let g:which_key_map['/'] = [ ':Commentary'                , 'comment' ]
@@ -783,6 +814,7 @@ let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
 let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
 let g:which_key_map['W'] = [ 'w'                          , 'write' ]
 let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
+let g:which_key_map['i'] = [ ':CocList marketplace'       , 'Coc marketplace' ]
 silent! nmap <leader>fr :History<CR>
 
 " Group mappings
@@ -804,6 +836,7 @@ let g:which_key_map.p = {
       \ 'd' : ['DeleteSession'          , 'Delete Session'],
       \ 'c' : ['CloseSession'           , 'Close Session'],
       \ 'v' : [':call ToggleNetrw()'    , 'Open Netrw'],
+      \ 'l' : [':CocList project'       , 'Project list'],
       \ }
 " a is for actions
 let g:which_key_map.a = {
@@ -817,11 +850,13 @@ let g:which_key_map.a = {
 let g:which_key_map.o = {
       \ 'name' : '+Browser' ,
       \'v' : ['What 8080'              , 'B8080'],
-      \'a' :  ['Angular'               , 'B4200'],
+      \'a' : ['Angular'                , 'B4200'],
       \'g' : ['GraphQl 3000'           , 'B3000'],
       \'py': ['pserver 8000'           , 'B3000'],
-      \'p' : ['NERDTreeToggle'         , 'File explorer']
+      \'p' : [':CocCommand explorer'   , 'File explorer'],
+      \'n' : ['NnnPicker'              , 'nnn File explorer']
       \ }
+" \'p' : ['NERDTreeToggle'         , 'File explorer'],
 " b is for buffer
 let g:which_key_map.b = {
       \ 'name' : '+buffer' ,
@@ -957,6 +992,7 @@ let g:which_key_map.t = {
       \ 'd' : [':FloatermNew lazydocker'                        , 'docker'],
       \ 'n' : [':FloatermNew node'                              , 'node'],
       \ 'p' : [':FloatermNew python'                            , 'python'],
+      \ 'b' : [':FloatermNew nnn'                               , 'nnn'],
       \ 'r' : [':FloatermNew ranger'                            , 'ranger'],
       \ 't' : [':FloatermToggle'                                , 'toggle'],
       \ 'h' : [':FloatermNew htop'                              , 'htop'],

@@ -24,6 +24,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
@@ -34,7 +36,8 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/taglist.vim'
-Plug 'easymotion/vim-easymotion'
+" Plug 'easymotion/vim-easymotion'
+Plug 'justinmk/vim-sneak'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'suan/vim-instant-markdown'
@@ -50,6 +53,10 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'godlygeek/tabular'
 Plug 'Yggdroot/indentLine'
 Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+Plug 'unblevable/quick-scope'
+Plug 'metakirby5/codi.vim'
+            \, { 'on': 'Codi' }
+" auto set indent settings
  " See what keys do like in emacs
  Plug 'liuchengxu/vim-which-key'
  " Zen mode
@@ -346,7 +353,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 augroup mygroup
   autocmd!
@@ -513,7 +520,10 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif"
-
+set formatoptions-=cro
+set iskeyword+=-
+set t_Co=256
+" set ruler
 
 autocmd BufReadPost *
       \ if line("'\"") > 0 && line ("'\"") <= line("$") |
@@ -526,21 +536,33 @@ set complete=.,w,b,u,t,k
 autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
 autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 
+let g:codi#interpreters = {
+          \     'node': {
+          \         'bin': 'node',
+          \     },
+          \     'haskell': {
+          \         'bin': 'ghci',
+          \     },
+          \     'typescript': {
+          \         'bin': 'tsun',
+          \     },
+          \     'python': {
+          \         'bin': 'python3',
+          \     },
+          \ }
 
 
-" easy motion rebinded
-let g:EasyMotion_do_mapping        = 0
-let g:EasyMotion_do_shade          = 1
-let g:EasyMotion_inc_highlight     = 0
-let g:EasyMotion_landing_highlight = 0
-let g:EasyMotion_off_screen_search = 0
-let g:EasyMotion_smartcase         = 0
-let g:EasyMotion_startofline       = 0
-let g:EasyMotion_use_smartsign_us  = 1
-let g:EasyMotion_use_upper         = 0
-let g:EasyMotion_skipfoldedline    = 0
-
-
+let g:startify_list_order = [
+      \ ['   Bookmarks'], 'bookmarks',
+      \ ['   Sessions'], 'sessions',
+      \ ['   Files'], 'files',
+      \ ['   Directory'], 'dir',
+      \ ['   Commands'], 'commands']
+let g:startify_relative_path = 1
+let g:startify_session_autoload = 1
+let g:startify_session_persistence = 1
+let g:startify_session_delete_buffers = 1
+let g:startify_session_sort = 1
 
 let g:startify_change_to_dir       = 0
 let g:startify_custom_header       = 'startify#pad(startify#fortune#boxed())'
@@ -548,6 +570,19 @@ let g:startify_enable_special      = 0
 let g:startify_fortune_use_unicode = 1
 let g:startify_update_oldfiles     = 1
 let g:startify_use_env             = 1
+let g:startify_ascii = [
+      \ '     ___           ___           ___           ___           ___           ___           ___',
+      \ '    /  /\         /__/\         /  /\         /  /\         /  /\         /__/\         /  /\',
+      \ '   /  /::\       _\_ \:\       /  /:/_       /  /:/_       /  /::\       |  |::\       /  /:/_',
+      \ '  /  /:/\:\     /__/\ \:\     /  /:/ /\     /  /:/ /\     /  /:/\:\      |  |:|:\     /  /:/ /\',
+      \ ' /  /:/~/::\   _\_ \:\ \:\   /  /:/ /:/_   /  /:/ /::\   /  /:/  \:\   __|__|:|\:\   /  /:/ /:/_',
+      \ '/__/:/ /:/\:\ /__/\ \:\ \:\ /__/:/ /:/ /\ /__/:/ /:/\:\ /__/:/ \__\:\ /__/::::| \:\ /__/:/ /:/ /\',
+      \ '\  \:\/:/__\/ \  \:\ \:\/:/ \  \:\/:/ /:/ \  \:\/:/~/:/ \  \:\ /  /:/ \  \:\~~\__\/ \  \:\/:/ /:/',
+      \ ' \  \::/       \  \:\ \::/   \  \::/ /:/   \  \::/ /:/   \  \:\  /:/   \  \:\        \  \::/ /:/',
+      \ '  \  \:\        \  \:\/:/     \  \:\/:/     \__\/ /:/     \  \:\/:/     \  \:\        \  \:\/:/',
+      \ '   \  \:\        \  \::/       \  \::/        /__/:/       \  \::/       \  \:\        \  \::/',
+      \ '    \__\/         \__\/         \__\/         \__\/         \__\/         \__\/         \__\/',]
+let g:startify_custom_header = map(g:startify_ascii, "\"   \".v:val")
 
 
 cnoreabbrev <expr> x getcmdtype() == ":" && getcmdline() == 'x' ? 'Sayonara' : 'x'
@@ -665,6 +700,13 @@ function! s:OpenTab(reload, detached, port)
   call system(open_tab_command)
 endfunction
 
+
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
 " open google tabs using quick mapping :S
 command! B8080 call <sid>OpenTab(1, 0,8080)
 command! B4200 call <sid>OpenTab(0, 1,4200)
@@ -702,12 +744,16 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
-
+map s <Plug>Sneak_s
+map F <Plug>Sneak_S
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+let g:sneak#label = 1
 " Create map to add keys to
 let g:which_key_map =  {}
 " Define a separator
 let g:which_key_sep = '→'
-" set timeoutlen=100
+set timeoutlen=100
 
 
 " Not a fan of floating windows for this
@@ -718,6 +764,9 @@ highlight default link WhichKey          Operator
 highlight default link WhichKeySeperator DiffAdded
 highlight default link WhichKeyGroup     Identifier
 highlight default link WhichKeyDesc      Function
+" Default highlighting (see help :highlight and help :highlight-link)
+highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
+highlight link multiple_cursors_visual Visual
 map <leader>r :source %<CR>
 " Single mappings
 let g:which_key_map['/'] = [ ':Commentary'                , 'comment' ]
@@ -728,7 +777,6 @@ let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
 let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
 let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
-let g:which_key_map['f'] = [ '<Plug>(easymotion-s2)'      , 'easymotion' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
 let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
 let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
@@ -764,7 +812,6 @@ let g:which_key_map.a = {
       \ 'r' : [':set norelativenumber!'  , 'relative line nums'],
       \ 's' : [':let @/ = ""'            , 'remove search highlight'],
       \ 't' : [':FloatermToggle'         , 'terminal'],
-      \ 'v' : [':Vista!!'                , 'tag viewer'],
       \ }
 
 let g:which_key_map.o = {
@@ -913,6 +960,7 @@ let g:which_key_map.t = {
       \ 'r' : [':FloatermNew ranger'                            , 'ranger'],
       \ 't' : [':FloatermToggle'                                , 'toggle'],
       \ 'h' : [':FloatermNew htop'                              , 'htop'],
+      \ 's' : [':FloatermNew ncdu'                              , 'ncdu'],
       \ }
 
 call which_key#register('<Space>', "g:which_key_map")

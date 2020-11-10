@@ -1,12 +1,12 @@
 call plug#begin('~/.config/nvim/bundle')
 Plug 'sheerun/vim-polyglot'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'joshdick/onedark.vim'
-Plug 'sainnhe/vim-color-forest-night'
+" Plug 'jonathanfilip/vim-lucius'
+" Plug 'joshdick/onedark.vim'
+" Plug 'sainnhe/vim-color-forest-night'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'preservim/nerdtree'
 Plug 'icymind/NeoSolarized'
-Plug 'kaicataldo/material.vim'
+" Plug 'kaicataldo/material.vim'
 "Plug 'tsony-tsonev/nerdtree-git-plugin'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -30,48 +30,58 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'airblade/vim-rooter'
-Plug 'iamcco/coc-angular'
+" Plug 'iamcco/coc-angular'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
-Plug 'majutsushi/tagbar'
-Plug 'vim-scripts/taglist.vim'
+" Plug 'majutsushi/tagbar'
+" Plug 'vim-scripts/taglist.vim'
 " Plug 'easymotion/vim-easymotion'
 Plug 'justinmk/vim-sneak'
-Plug 'xolox/vim-session'
-Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-session'
+" Plug 'xolox/vim-misc'
 Plug 'suan/vim-instant-markdown'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'jreybert/vimagit'
-Plug 'itchyny/lightline.vim'
-Plug 'jacoborus/tender.vim'
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+" Plug 'jreybert/vimagit'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'itchyny/lightline.vim'
+" Plug 'jacoborus/tender.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'godlygeek/tabular'
-Plug 'Yggdroot/indentLine'
+" Plug 'godlygeek/tabular'
+" Plug 'Yggdroot/indentLine'
 " Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
-Plug 'unblevable/quick-scope'
+" Plug 'unblevable/quick-scope'
 Plug 'metakirby5/codi.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'editorconfig/editorconfig-vim'
+" Plug 'puremourning/vimspector'
+" Plug 'matze/vim-move', { 'on': [
+"             \ '<Plug>MoveBlockDown',
+"             \ '<Plug>MoveBlockUp',
+"             \ '<Plug>MoveLineDown',
+"             \ '<Plug>MoveLineUp',
+"             \ ]}
 Plug 'elzr/vim-json'
             \, { 'on': 'Codi' }
-Plug 'mcchrish/nnn.vim'
+" Plug 'mcchrish/nnn.vim'
 " auto set indent settings
  " See what keys do like in emacs
  Plug 'liuchengxu/vim-which-key'
  " Zen mode
- Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 "Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-
 
 " Not sure if i want these settings :
 " let g:javascript_conceal_function             = "ƒ"
@@ -91,9 +101,23 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 "     au FileType javascript setlocal foldmethod=syntax
 " augroup END
 
+
+" vmap <M-j> <Plug>MoveBlockDown
+" vmap <M-k> <Plug>MoveBlockUp
+" vmap <M-h> <Plug>MoveCharLeft
+" vmap <M-l> <Plug>MoveCharRight
+
+" nmap <M-j> <Plug>MoveLineDown
+" nmap <M-k> <Plug>MoveLineUp
+" nmap <M-h> <Plug>MoveCharLeft
+" nmap <M-l> <Plug>MoveCharRight
+
 " Initialize plugin system
 call plug#end()
 
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+let g:goyo_width = 120
 " let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
 " if !filereadable(autoload_plug_path)
 "   silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
@@ -179,18 +203,62 @@ let mapleader = "\<Space>"
 
 " Vim DevIcons
 exe 'source' stdpath('config') . '/extras/devicons.vim'
-" lightline
-let g:neosolarized_bold = 1
-let g:neosolarized_underline = 1
-let g:neosolarized_italic = 1
-let g:lightline = {
-    \   'colorscheme': 'solarized',
-    \   'component': { 'lineinfo': '⭡ %3l:%-2v' },
-    \ }
-exe 'source' stdpath('config') . '/lightline.vim'
+" " lightline
+" let g:neosolarized_bold = 1
+" let g:neosolarized_underline = 1
+" let g:neosolarized_italic = 1
+" let g:lightline = {
+"     \   'colorscheme': 'solarized',
+"     \   'component': { 'lineinfo': '⭡ %3l:%-2v' },
+"     \ }
+" exe 'source' stdpath('config') . '/lightline.vim'
 highlight clear IncSearch
 highlight IncSearch term=reverse cterm=reverse ctermfg=7 ctermbg=0 guifg=Black guibg=White
 highlight Comment cterm=italic gui=italic
+
+" vim-airline
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" vim-airline
+let g:airline_theme = 'solarized'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
 
 
 
@@ -205,8 +273,8 @@ highlight Comment cterm=italic gui=italic
 " "" close vim if the only window left open is a NERDTree
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " close vim if the only window left open is a NERDTree
 " "" open a NERDTree automatically when vim starts up if no files were specified
-" autocmd StdinReadPre * let s:std_in=1 
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif 
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " "" open NERDTree automatically when vim starts up on opening a directory
 " autocmd StdinReadPre * let s:std_in=0
 " autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
@@ -237,7 +305,7 @@ set encoding=UTF-8
 
 
 
-" Color 
+" Color
 function! s:colors_default() abort
   highlight Comment cterm=italic
   highlight link User1 StatusLine   " master branch
@@ -331,15 +399,15 @@ endif
 "   \ 'coc-snippets',
 "   \ 'coc-pairs',
 "   \ 'coc-tsserver',
-"   \ 'coc-eslint', 
-"   \ 'coc-prettier', 
-"   \ 'coc-json', 
+"   \ 'coc-eslint',
+"   \ 'coc-prettier',
+"   \ 'coc-json',
 "   \ 'coc-angular'
 "   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
 set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
+set updatetime=100
 
 " don't give |ins-completion-menu| messages.
 " set shortmess+=c
@@ -404,7 +472,7 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 
 " wild stuff
@@ -419,6 +487,8 @@ else
 endif
 
 " display settings
+set nocursorline
+set nocursorcolumn
 set display      +=lastline
 set laststatus    =2
 set list
@@ -432,6 +502,8 @@ set showcmd
 set showmatch
 set showmode
 set number
+syntax sync minlines=200
+syntax sync maxlines=500
 " set relativenumber
 
 set laststatus=2
@@ -450,16 +522,24 @@ let g:fzf_buffers_jump = 1
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
 " [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=.idea'
+let g:fzf_tags_command = 'actags -R --exclude=.git --exclude=node_modules --exclude=.idea'
 "command! FZF FloatermNew fzf
+" The Silver Searcher
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
 cnoreabbrev Ack Ack!
-set grepprg=rg
 
 let g:grep_cmd_opts = '--line-numbers --noheading --ignore-dir=log --ignore-dir=tmp'
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
       \   fzf#vim#with_preview(), <bang>0)
+set grepprg=rg\ --vimgrep
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
 
 " Always enable preview window on the right with 60% width
 let g:fzf_preview_window = 'right:60%'
@@ -512,10 +592,13 @@ endif
 set re=1
 " set cursorline
 " set cursorcolumn
-set foldmethod    =marker
-set foldopen     -=hor
-set foldopen     +=jump
-set foldtext      =mhi#foldy()
+" set foldmethod    =marker
+" set foldopen     -=hor
+" set foldopen     +=jump
+" set foldtext      =mhi#foldy()
+set ttyfast
+set foldlevel=0
+set foldmethod=manual
 set hlsearch
 set incsearch
 set mouse         =a
@@ -534,6 +617,9 @@ set diffopt      +=vertical,foldcolumn:0,indent-heuristic,algorithm:patience
 set hidden
 set history       =1000
 set lazyredraw
+" set nolazyredraw
+set norelativenumber
+set redrawtime=10000
 set noerrorbells
 set tags         ^=./.git/tags;
 
@@ -553,6 +639,12 @@ set formatoptions-=cro
 set iskeyword+=-
 set t_Co=256
 " set ruler
+"
+if has("mac")
+  if exists("+relativenumber")
+  endif
+
+endif
 
 autocmd BufReadPost *
       \ if line("'\"") > 0 && line ("'\"") <= line("$") |
@@ -587,12 +679,20 @@ let g:startify_list_order = [
       \ ['   Files'], 'files',
       \ ['   Directory'], 'dir',
       \ ['   Commands'], 'commands']
+let g:startify_change_to_vcs_root = 1
+let g:startify_fortune_use_unicode = 1
+let g:startify_enable_special = 0
+let g:startify_session_delete_buffers = 1
+let g:startify_session_autoload = 1
 let g:startify_relative_path = 1
 let g:startify_session_autoload = 1
 let g:startify_session_persistence = 1
 let g:startify_session_delete_buffers = 1
 let g:startify_session_sort = 1
-
+let g:startify_bookmarks = [
+            \ { 'v': '~/Documents/Arthrexact/arthrexvip' },
+            \ { 'd': '~/Documents/openSource/dialogue' },
+            \ ]
 let g:startify_change_to_dir       = 0
 let g:startify_custom_header       = 'startify#pad(startify#fortune#boxed())'
 let g:startify_enable_special      = 0
@@ -762,7 +862,7 @@ map L g_
 map J 5j
 map K 5k
 map ,xc :noh<CR>
-vmap <C-c> :w !pbcopy<CR><CR> 
+vmap <C-c> :w !pbcopy<CR><CR>
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " nmap <leader>gh :diffget //3<CR>
 " nmap <leader>gf :diffget //2<CR>
@@ -782,7 +882,7 @@ let g:sneak#label = 1
 let g:which_key_map =  {}
 " Define a separator
 let g:which_key_sep = '→'
-set timeoutlen=500
+set timeoutlen=190
 
 
 " Not a fan of floating windows for this
@@ -806,7 +906,8 @@ let g:which_key_map[']'] = [ ':TagbarToggle'              , 'tagbar toggle' ]
 let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
 let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
-let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
+" adding debugging options
+" let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
 let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
 let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
@@ -816,7 +917,19 @@ let g:which_key_map['W'] = [ 'w'                          , 'write' ]
 let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
 let g:which_key_map['i'] = [ ':CocList marketplace'       , 'Coc marketplace' ]
 silent! nmap <leader>fr :History<CR>
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
 
+"" Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
 " Group mappings
 " w is for actions
 let g:which_key_map.w = {
@@ -906,7 +1019,7 @@ let g:which_key_map.s = {
 " g is for git
 let g:which_key_map.g = {
       \ 'name' : '+git' ,
-      \'s' : ['Gstatus', '  git status '],
+      \'s' : [' Gstatus', '  git status '],
       \'d' : ['Gvdiff', '  git diff '],
       \'c' : ['Gcommit', '  git commit '],
       \'w' : ['Gwrite', '  git stage/add '],
@@ -998,6 +1111,24 @@ let g:which_key_map.t = {
       \ 'h' : [':FloatermNew htop'                              , 'htop'],
       \ 's' : [':FloatermNew ncdu'                              , 'ncdu'],
       \ }
+
+" nmap <leader>dd :call vimspector#Launch()<CR>
+" nmap <leader>dx :VimspectorReset<CR>
+" nmap <leader>de :VimspectorEval
+" nmap <leader>dw :VimspectorWatch
+" nmap <leader>do :VimspectorShowOutput
+" vimspector_enable_mappings
+" let g:vimspector_enable_mappings = 'HUMAN'
+
+" " t is for terminal
+" let g:which_key_map.d = {
+"       \ 'name' : '+terminal' ,
+"       \ 'd' : [':call vimspector#Launch()<CR>'                  , 'initDebugger'],
+"       \ 'x' : [':VimspectorReset<CR>'                           , 'reset'],
+"       \ 'e' : [':VimspectorEval'                                , 'eval'],
+"       \ 'w' : [':VimspectorWatch'                               , 'watch'],
+"       \ 'o' : [':VimspectorShowOutput'                          , 'showOutput'],
+"       \ }
 
 call which_key#register('<Space>', "g:which_key_map")
 

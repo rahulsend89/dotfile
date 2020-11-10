@@ -3,7 +3,7 @@
   "diagnostic.warningSign": "",
   "diagnostic.infoSign": "",
   "diagnostic.hintSign": "ﯦ",
-  "diagnostic.checkCurrentLine": true,
+  "diagnostic.checkCurrentLine": false,
   "eslint.enable": false,
   "eslint.run": "onSave",
   "eslint.autoFixOnSave": false,
@@ -15,12 +15,12 @@
     "typescriptreact",
     "vue"
   ],
-  "codeLens.enable": true,
+  "codeLens.enable": false,
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,
   "explorer.previewAction.onHover": false,
   "explorer.icon.enableVimDevicons": false,
-  "explorer.keyMappings": {
+  "explorer.keyMappings.global": {
     "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit"
   },
@@ -28,14 +28,14 @@
   "javascript.showUnused": false,
   "javascript.suggestionActions.enabled": false,
   "javascript.validate.enable": false,
+  "typescript.referencesCodeLens.enable": false,
+  "typescript.implementationsCodeLens.enable": false,
   "prettier.disableLanguages": ["javascript"],
   "prettier.singleQuote": true,
-  "css.validate": false,
-  "coc.preferences.noselect": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "html",
-    //"javascript",
+    "javascript",
     "javascriptreact",
     "json",
     "ruby",
@@ -45,8 +45,5 @@
   ],
   "snippets.extends": {
     "vue": ["javascript", "typescript", "html", "css"]
-  },
-  "diagnostic-languageserver.filetypes": {
-    "sh": "shellcheck"
   }
 }

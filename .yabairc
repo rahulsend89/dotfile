@@ -1,23 +1,23 @@
-
-
 #!/usr/bin/env sh
 
 yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
-yabai -m config status_bar_icon_font         "feather:Regular:12.0"
-yabai -m config status_bar                      on
+yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
+yabai -m config status_bar                      off
 yabai -m config status_bar_background_color     0xff202020
 yabai -m config status_bar_foreground_color     0xffa8a8a8
-yabai -m config status_bar_space_icon_strip     1 2 3 4 5 6
-yabai -m config status_bar_space_icon           x
-yabai -m config status_bar_clock_icon           " "
+yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
+yabai -m config status_bar_power_icon_strip   
+yabai -m config status_bar_space_icon        
+yabai -m config status_bar_clock_icon        
 
 # global settings
-yabai -m config mouse_follows_focus             off
-yabai -m config focus_follows_mouse             off
+yabai -m config mouse_follows_focus             on
+yabai -m window --focus mouse
+yabai -m config focus_follows_mouse             on
 yabai -m config window_placement                second_child
 yabai -m config window_topmost                  off
 yabai -m config window_shadow                   off
-yabai -m config window_border                   on
+yabai -m config window_border                   off
 yabai -m config window_border_placement         exterior
 yabai -m config window_border_width             15
 yabai -m config window_border_radius            15
@@ -33,51 +33,63 @@ yabai -m config mouse_action2                   resize
 
 # general space settings
 yabai -m config layout                          bsp
-yabai -m config top_padding                     0
-yabai -m config bottom_padding                  0
+yabai -m config top_padding                     2
+yabai -m config bottom_padding                  2
 yabai -m config left_padding                    0
 yabai -m config right_padding                   0
-yabai -m config window_gap                      1
+yabai -m config window_gap                      06
 
 yabai -m config window_topmost                  on
-yabai -m config window_shadow                   float
+# yabai -m config window_shadow                   float
 
 # Space labels
 yabai -m space 1 --label "Primary"
-yabai -m space 2 --label "Comms"
-yabai -m space 3 --label "Tools"
-yabai -m space 4 --label "Media"
-yabai -m space 6 --label "Float"
+yabai -m space 2 --label "Float"
+yabai -m space 3 --label "Chat"
+yabai -m space 4 --label "Music"
+yabai -m space 5 --label "Browser"
 
 # Space config
-yabai -m config --space 5 layout float
+yabai -m config --space 2 layout float
 
 # Unmanaged
-yabai -m rule --add app="^System Preferences$"  manage=off border=off
+yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add label="System Preferences" app="^System Preferences$" manage=off
+yabai -m rule --add label="Activity Monitor" app="^Activity Monitor$" manage=off
+yabai -m rule --add label="App Store" app="^App Store$" manage=off
+yabai -m rule --add label="Calculator" app="^Calculator$" manage=off
+yabai -m rule --add label="LINE" app="^LINE$" manage=off
+yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
+yabai -m rule --add label="AirPort Utility" app="^AirPort Utility$" manage=off
+yabai -m rule --add label="mpv" app="^mpv$" manage=off
+yabai -m rule --add label="The Unarchiver" app="^The Unarchiver$" manage=off
 
-# Primary
-yabai -m rule --add app="qutebrowser"           space=6
-yabai -m rule --add app="alacritty"             space=1
-yabai -m rule --add app="kitty"                 space=1
-yabai -m rule --add app="Preview"               space=1
-yabai -m rule --add app="Simulator"             space=1
+# # Primary
+# yabai -m rule --add app="Preview"               space=1
+# yabai -m rule --add app="Simulator"             space=1
+# yabai -m rule --add app="Terminal"              space=1
+# yabai -m rule --add app="^Alacritty$"           space=1
+# yabai -m rule --add app="kitty"                 space=1
+# yabai -m rule --add app="^iTerm$"               space=1
 
 # Communication
-yabai -m rule --add app="Slack"                 space=2
-
-# Tools
-yabai -m rule --add app="Finder"                space=3
-yabai -m rule --add app="Sourcetree"            space=3
-yabai -m rule --add app="Activity Monitor"      space=3
-yabai -m rule --add app="App Store"             space=3
-yabai -m rule --add app="Terminal"              space=3
+yabai -m rule --add app="Slack"                 space=3
+yabai -m rule --add app="Microsoft Teams"       space=3
 
 # Media
-yabai -m rule --add app="Music"                 space=4
 yabai -m rule --add app="VLC"                   space=4
 yabai -m rule --add app="Spotify"               space=4
 
 
 # Floating
-yabai -m rule --add app="^System Preferences$"  space=5
+yabai -m rule --add app="^System Preferences$"  space=2
+yabai -m rule --add app="^LINE$"  space=2
 
+
+#Browser
+yabai -m rule --add app="qutebrowser"           space=5
+yabai -m rule --add app="Brave Browser"         space=5
+
+# yabai -m signal --add event=space_changed \
+#     action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-primary-jsx\"'"

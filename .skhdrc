@@ -1,3 +1,6 @@
+# opens iTerm2
+alt - return : "${HOME}"/.vim/open_term.sh
+
 ##############################################
 # Navigation (focussing)
 ##############################################
@@ -65,15 +68,22 @@ alt - f : yabai -m window --toggle zoom-fullscreen
 alt - t : yabai -m window --toggle float;\
           yabai -m window --grid 4:4:1:1:2:2
 
+
+# Restart Yabai
+shift + lctrl + alt - r : 
+    /usr/bin/env osascript <<< \
+        "display notification \"Restarting Yabai\" with title \"Yabai\""; \
+    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
 ##############################################
 # Floating
 ##############################################
 
 # Fill
-shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
+# shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
 
 # Left
-shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
+# shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
 
 # Right
-shift + alt - right  : yabai -m window --grid 1:2:1:0:1:1
+# shift + alt - right  : yabai -m window --grid 1:2:1:0:1:1

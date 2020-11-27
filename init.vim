@@ -22,7 +22,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-markdown'
+" Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-rhubarb'
@@ -37,10 +37,10 @@ Plug 'tmux-plugins/vim-tmux'
 " Plug 'majutsushi/tagbar'
 " Plug 'vim-scripts/taglist.vim'
 " Plug 'easymotion/vim-easymotion'
-Plug 'justinmk/vim-sneak'
+" Plug 'justinmk/vim-sneak'
 " Plug 'xolox/vim-session'
 " Plug 'xolox/vim-misc'
-Plug 'suan/vim-instant-markdown'
+" Plug 'suan/vim-instant-markdown'
 Plug 'terryma/vim-multiple-cursors'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'jreybert/vimagit'
@@ -83,6 +83,9 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
+" " Track the engine.
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
 " Not sure if i want these settings :
 " let g:javascript_conceal_function             = "ƒ"
 " let g:javascript_conceal_null                 = "ø"
@@ -111,6 +114,12 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 " nmap <M-k> <Plug>MoveLineUp
 " nmap <M-h> <Plug>MoveCharLeft
 " nmap <M-l> <Plug>MoveCharRight
+"
+" brower nvim
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(3) } }
+
+" color css
+Plug 'norcalli/nvim-colorizer.lua'
 
 " Initialize plugin system
 call plug#end()
@@ -367,33 +376,37 @@ if has('gui_running')
   command! Smaller let &guifont = substitute(&guifont, '\d\+', '\=submatch(0)-1', '')
 else
   syntax on
-  "if (empty($TMUX))
-  "  if (has("nvim"))
-  "    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  "    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  "  endif
-  "  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  "  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  "  if (has("termguicolors"))
-  "    set termguicolors
-  "  endif
-  "endif
+  if (empty($TMUX))
+    if (has("nvim"))
+      "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    endif
+    "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+    "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+    " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+    if (has("termguicolors"))
+      set termguicolors
+    endif
+  endif
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   if exists('+termguicolors')
     let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
   endif
-  " let g:solarized_termcolors=256
-  " let g:neosolarized_contrast = "high"
-  " let g:neosolarized_visibility = 'high'
+  let g:solarized_termcolors=256
+  let g:neosolarized_contrast = "high"
+  let g:neosolarized_visibility = 'high'
   set t_8f=^[[38;2;%lu;%lu;%lum
   set t_8b=^[[48;2;%lu;%lu;%lum
   set background=dark
   colorscheme NeoSolarized
 endif
 
+
+lua << EOF
+   require'colorizer'.setup()
+EOF
 " coc config Completetion of concur
 " let g:coc_global_extensions = [
 "   \ 'coc-snippets',
@@ -488,6 +501,7 @@ endif
 
 " display settings
 set nocursorline
+set termguicolors
 set nocursorcolumn
 set display      +=lastline
 set laststatus    =2
@@ -597,6 +611,7 @@ set re=1
 " set foldopen     +=jump
 " set foldtext      =mhi#foldy()
 set ttyfast
+set nocompatible
 set foldlevel=0
 set foldmethod=manual
 set hlsearch
@@ -873,11 +888,11 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
-map s <Plug>Sneak_s
-map F <Plug>Sneak_S
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
-let g:sneak#label = 1
+" map s <Plug>Sneak_s
+" map F <Plug>Sneak_S
+" map t <Plug>Sneak_t
+" map T <Plug>Sneak_T
+" let g:sneak#label = 1
 " Create map to add keys to
 let g:which_key_map =  {}
 " Define a separator

@@ -29,7 +29,7 @@ Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 " Plug 'iamcco/coc-angular'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -50,7 +50,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'jacoborus/tender.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
-Plug 'ntpeters/vim-better-whitespace'
+" Plug 'ntpeters/vim-better-whitespace'
 Plug 'jlanzarotta/bufexplorer'
 " Plug 'godlygeek/tabular'
 " Plug 'Yggdroot/indentLine'
@@ -87,22 +87,22 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Not sure if i want these settings :
-" let g:javascript_conceal_function             = "ƒ"
-" let g:javascript_conceal_null                 = "ø"
-" let g:javascript_conceal_this                 = "@"
-" let g:javascript_conceal_return               = "⇚"
-" let g:javascript_conceal_undefined            = "¿"
-" let g:javascript_conceal_NaN                  = "ℕ"
-" let g:javascript_conceal_prototype            = "¶"
-" let g:javascript_conceal_static               = "•"
-" let g:javascript_conceal_super                = "Ω"
-" let g:javascript_conceal_arrow_function       = "⇒"
-" let g:javascript_conceal_noarg_arrow_function = "🞅"
-" let g:javascript_conceal_underscore_arrow_function = "🞅"
-" augroup javascript_folding
-"     au!
-"     au FileType javascript setlocal foldmethod=syntax
-" augroup END
+let g:javascript_conceal_function             = "ƒ"
+let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "⇚"
+let g:javascript_conceal_undefined            = "¿"
+let g:javascript_conceal_NaN                  = "ℕ"
+let g:javascript_conceal_prototype            = "¶"
+let g:javascript_conceal_static               = "•"
+let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "⇒"
+let g:javascript_conceal_noarg_arrow_function = "🞅"
+let g:javascript_conceal_underscore_arrow_function = "🞅"
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END
 
 
 " vmap <M-j> <Plug>MoveBlockDown
@@ -269,7 +269,8 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-
+" au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%%', 'maxlinenr', ' :%3v'])
+au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['%3p%%'])
 
 " open NERDTree automatically
 "autocmd StdinReadPre * let s:std_in=1
@@ -404,6 +405,16 @@ else
 endif
 
 
+function! CloseAllBuffersButCurrent()
+  let curr = bufnr("%")
+  let last = bufnr("$")
+
+  if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
+  if curr < last | silent! execute (curr+1).",".last."bd" | endif
+endfunction
+
+nmap <Leader> :call CloseAllBuffersButCurrent()<CR>
+
 lua << EOF
    require'colorizer'.setup()
 EOF
@@ -420,10 +431,7 @@ EOF
 " from readme
 " if hidden is not set, TextEdit might fail.
 set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=100
-
-" don't give |ins-completion-menu| messages.
-" set shortmess+=c
+set updatetime=10
 
 " always show signcolumns
 set signcolumn=yes
@@ -579,7 +587,7 @@ let g:go_auto_sameids = 1
 set shortmess+=c
 
 " " Give more space for displaying messages.
-" set cmdheight=2
+set cmdheight=2
 
 " set colorcolumn=120
 " highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -601,6 +609,13 @@ else
   set viminfo     ='100,n$v/files/info/viminfo
 endif
 
+if has('folding')
+  if has('windows')
+    set fillchars=vert:┃              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+  endif
+  set foldmethod=indent               " not as cool as syntax, but faster
+  set foldlevelstart=99               " start unfolded
+endif
 
 " better navigation
 set re=1
@@ -612,8 +627,9 @@ set re=1
 " set foldtext      =mhi#foldy()
 set ttyfast
 set nocompatible
-set foldlevel=0
-set foldmethod=manual
+" set foldlevel=1
+" set foldlevelstart=1
+" set foldmethod=manual
 set hlsearch
 set incsearch
 set mouse         =a
@@ -632,7 +648,6 @@ set diffopt      +=vertical,foldcolumn:0,indent-heuristic,algorithm:patience
 set hidden
 set history       =1000
 set lazyredraw
-" set nolazyredraw
 set norelativenumber
 set redrawtime=10000
 set noerrorbells
@@ -911,7 +926,7 @@ highlight default link WhichKeyDesc      Function
 " Default highlighting (see help :highlight and help :highlight-link)
 highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
 highlight link multiple_cursors_visual Visual
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+" autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
 map <leader>r :source %<CR>
 " Single mappings
@@ -986,18 +1001,21 @@ let g:which_key_map.o = {
       \ }
 " \'p' : ['NERDTreeToggle'         , 'File explorer'],
 " b is for buffer
+" nmap <Leader> :call CloseAllBuffersButCurrent()<CR>
+
 let g:which_key_map.b = {
       \ 'name' : '+buffer' ,
-      \ '1' : ['b1'        , 'buffer 1']        ,
-      \ '2' : ['b2'        , 'buffer 2']        ,
-      \ 'd' : ['bd'        , 'delete-buffer']   ,
-      \ 'f' : ['bfirst'    , 'first-buffer']    ,
-      \ 'h' : ['Startify'  , 'home-buffer']     ,
-      \ 'b' : [':Buffers'  , 'open buffers'],
-      \ 'l' : ['blast'     , 'last-buffer']     ,
-      \ 'n' : ['bnext'     , 'next-buffer']     ,
-      \ 'p' : ['bprevious' , 'previous-buffer'] ,
-      \ '?' : ['Buffers'   , 'fzf-buffer']      ,
+      \ '1' : ['b1'                                           , 'buffer 1']        ,
+      \ '2' : ['b2'                                           , 'buffer 2']        ,
+      \ 'd' : ['bd'                                           , 'delete-buffer']   ,
+      \ 'c' : [':call CloseAllBuffersButCurrent()<CR>'        , 'closeAll-buffer'] ,
+      \ 'f' : ['bfirst'                                       , 'first-buffer']    ,
+      \ 'h' : ['Startify'                                     , 'home-buffer']     ,
+      \ 'b' : [':Buffers'                                     , 'open buffers']    ,
+      \ 'l' : ['blast'                                        , 'last-buffer']     ,
+      \ 'n' : ['bnext'                                        , 'next-buffer']     ,
+      \ 'p' : ['bprevious'                                    , 'previous-buffer'] ,
+      \ '?' : ['Buffers'                                      , 'fzf-buffer']      ,
       \ }
 
 " s is for search

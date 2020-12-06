@@ -21,7 +21,7 @@ class TabOpener
       open_app_in_new_tab
     end
     unless options[:detached]
-      focus_chrome
+      focus_brave
     end
   end
 
@@ -31,7 +31,7 @@ class TabOpener
 
   def app_tab
     @app_tab ||= begin
-                   tab_info = `chrome-cli list links | grep '#{app_url}' | head -1`.chomp
+                   tab_info = `brave list links | grep '#{app_url}' | head -1`.chomp
                    if tab_info != ""
                      tab_info.match(/^\[(?:\d+:)?(\d+)\]/)[1]
                    else
@@ -41,7 +41,7 @@ class TabOpener
   end
 
   def open_app_in_new_tab
-    system "chrome-cli open #{app_url} > /dev/null 2>&1"
+    system "brave open #{app_url} > /dev/null 2>&1"
   end
 
   def tab_exists?
@@ -49,14 +49,14 @@ class TabOpener
   end
 
   def activate(tab)
-    system "chrome-cli activate -t #{tab}"
+    system "brave activate -t #{tab}"
     if options[:reload]
-      system "chrome-cli reload -t #{tab}"
+      system "brave reload -t #{tab}"
     end
   end
 
-  def focus_chrome
-    system %{osascript -e 'tell application \"Google Chrome\" to activate'}
+  def focus_brave
+    system %{osascript -e 'tell application \"Brave Browser\" to activate'}
   end
 end
 
@@ -77,7 +77,7 @@ OptionParser.new do |opts|
     options[:reload] = r
   end
 
-  opts.on("-d", "--detached", "Detached -- do not focus chrome") do |d|
+  opts.on("-d", "--detached", "Detached -- do not focus brave") do |d|
     options[:detached] = d
   end
 end.parse!

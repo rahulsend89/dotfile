@@ -1,0 +1,19 @@
+#!/bin/bash
+# By default, this assumes that Chrome is '/Applications/Google Chrome.app'.
+# To point elsewhere, set the BRAVE environment variable, e.g.:
+#
+#   $ export BRAVE='/Applications/Google Chrome Canary.app'
+
+DEFAULT_BRAVE='/Applications/Brave Browser.app'
+
+BRAVE_PATH="${BRAVE:-"$DEFAULT_BRAVE"}"
+BRAVE_NAME="$(basename "$BRAVE_PATH")"
+BRAVE_NAME="${BRAVE_NAME%.app}"  # remove '.app' suffix
+
+if [ "$(osascript -e "application \"${BRAVE_NAME}\" is running")" = 'true' ]
+then
+  "${BRAVE_PATH}/Contents/MacOS/${BRAVE_NAME}" "$@"
+  open -a "$BRAVE_NAME"
+else
+  open -a "$BRAVE_NAME" --args "$@"
+fi

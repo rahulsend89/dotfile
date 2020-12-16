@@ -1,7 +1,55 @@
 ### Prompt
+if [ "$(uname)" = "Darwin" ]; then
+  # Set 60 fps key repeat rate
+  #
+  # Equivalent to the fatest rate acheivable with:
+  #
+  #     defaults write NSGlobalDomain KeyRepeat -int 1
+  #
+  # But doesn't require a logout and will get restored every time we open a
+  # shell (for example, if somebody manipulates the slider in the UI).
+  #
+  # Fastest rate available from UI corresponds to:
+  #
+  #     defaults write NSGlobalDomain KeyRepeat -int 2
+  #
+  # Slowest rate available from UI corresponds to:
+  #
+  #     defaults write NSGlobalDomain KeyRepeat -int 120
+  #
+  # Values at each slider position in UI, from slowest to fastest:
+  #
+  # - 120 -> 2 seconds (ie. .5 fps)
+  # - 90 -> 1.5 seconds (ie .6666 fps)
+  # - 60 -> 1 second (ie 1 fps)
+  # - 30 -> 0.5 seconds (ie. 2 fps)
+  # - 12 -> 0.2 seconds (ie. 5 fps)
+  # - 6 -> 0.1 seconds (ie. 10 fps)
+  # - 2 -> 0.03333 seconds (ie. 30 fps)
+  #
+  # See: https://github.com/mathiasbynens/dotfiles/issues/687
+  #
+  if command -v dry &> /dev/null; then
+    dry 0.0166666666667 > /dev/null
+  fi
+fi
+# Turn off flow control (prevent CTRL-S from capturing all output).
+stty -ixon
+
+# Allow terminal to "see" C-O.
+#
+# https://apple.stackexchange.com/a/3255/158927
+stty discard undef
+
+
 export EDITOR="nvim"
 function is_in_git_repo_p() {
   git ls-files &>/dev/null
+}
+function ide() {
+  tmux split-window -v -p 30
+  tmux split-window -h -p 50
+  # tmux split-window -h -p 50
 }
 
 function git_current_branch() {
@@ -75,16 +123,23 @@ alias p="ping google.com"
 alias pserver="python -m SimpleHTTPServer"
 alias ip="ipconfig getifaddr en0"
 alias ntfs="sudo ./ntfs.sh"
-alias tmn="tmux -S tmuxSession/main new -s shared"
-alias tmat="tmux -S tmuxSession/main attact -t shared"
+alias tmn="tmux -S ~/tmuxSession/main new -s shared"
+alias tmat="tmux -S ~/tmuxSession/main attach -t shared"
 alias tl="tmux ls"
 alias ll='ls -alGh'
 alias ls='ls -Gh'
+alias lg='lazygit'
 alias :q='exit'
 alias ve='nvim ~/.vimrc'
+alias vim='nvim'
+alias v='nvim `pwd`/package.json'
 alias ndev='npm run dev'
 alias ncov='npm run cov'
 alias cls='clear'
+alias ms='tmuxinator-fzf-start.sh'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
 alias ..='cd ..'
 alias yabr='brew services restart yabai'
 alias skhdr='brew services restart koekeishiya/formulae/skhd'
@@ -103,3 +158,4 @@ alias ops='cd ~/Documents/openSource/'
 alias emr='~/.emacs.d/bin/doom refresh'
 alias teams='sudo /Applications/Microsoft\ Teams.app/Contents/MacOS/Teams'
 alias cute='/Applications/qutebrowser.app/Contents/MacOS/qutebrowser'
+export NODE_ENV=development

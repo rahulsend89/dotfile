@@ -34,6 +34,8 @@ shift + cmd - 6 : yabai -m window --space  6; yabai -m space --focus 6
 shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
 shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
 
+# go to teams space 4
+alt -a : yabai -m space --focus 4
 
 # Floating Move
 shift + ctrl - a : yabai -m window --move rel:-20:0

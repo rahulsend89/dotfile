@@ -10,7 +10,10 @@ Plug 'icymind/NeoSolarized'
 "Plug 'tsony-tsonev/nerdtree-git-plugin'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
+" " master (neovim git)
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'ryanoasis/vim-devicons'
 " Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-startify'
 " Plug 'mhinz/vim-tree'
@@ -47,82 +50,58 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'itchyny/lightline.vim'
-" Plug 'jacoborus/tender.vim'
-Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 " Plug 'ntpeters/vim-better-whitespace'
 Plug 'jlanzarotta/bufexplorer'
-" Plug 'godlygeek/tabular'
 " Plug 'Yggdroot/indentLine'
-" Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 " Plug 'unblevable/quick-scope'
-Plug 'metakirby5/codi.vim'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'cakebaker/scss-syntax.vim'
+" Plug 'metakirby5/codi.vim'
+" Plug 'hail2u/vim-css3-syntax'
+" Plug 'cakebaker/scss-syntax.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'puremourning/vimspector'
-" Plug 'matze/vim-move', { 'on': [
-"             \ '<Plug>MoveBlockDown',
-"             \ '<Plug>MoveBlockUp',
-"             \ '<Plug>MoveLineDown',
-"             \ '<Plug>MoveLineUp',
-"             \ ]}
 Plug 'elzr/vim-json'
             \, { 'on': 'Codi' }
-" Plug 'mcchrish/nnn.vim'
-" auto set indent settings
  " See what keys do like in emacs
  Plug 'liuchengxu/vim-which-key'
  " Zen mode
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-"Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-
 Plug 'christoomey/vim-tmux-navigator'
-
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-
 " " Track the engine.
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-" Not sure if i want these settings :
-let g:javascript_conceal_function             = "ƒ"
-let g:javascript_conceal_null                 = "ø"
-let g:javascript_conceal_this                 = "@"
-let g:javascript_conceal_return               = "⇚"
-let g:javascript_conceal_undefined            = "¿"
-let g:javascript_conceal_NaN                  = "ℕ"
-let g:javascript_conceal_prototype            = "¶"
-let g:javascript_conceal_static               = "•"
-let g:javascript_conceal_super                = "Ω"
-let g:javascript_conceal_arrow_function       = "⇒"
-let g:javascript_conceal_noarg_arrow_function = "🞅"
-let g:javascript_conceal_underscore_arrow_function = "🞅"
-augroup javascript_folding
-    au!
-    au FileType javascript setlocal foldmethod=syntax
-augroup END
-
-
-" vmap <M-j> <Plug>MoveBlockDown
-" vmap <M-k> <Plug>MoveBlockUp
-" vmap <M-h> <Plug>MoveCharLeft
-" vmap <M-l> <Plug>MoveCharRight
-
-" nmap <M-j> <Plug>MoveLineDown
-" nmap <M-k> <Plug>MoveLineUp
-" nmap <M-h> <Plug>MoveCharLeft
-" nmap <M-l> <Plug>MoveCharRight
-"
-" brower nvim
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(3) } }
-
+" " brower nvim
+" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(3) } }
 " color css
 Plug 'norcalli/nvim-colorizer.lua'
-
 " Initialize plugin system
 call plug#end()
+
+hi LineNr guibg=bg
+" set foldcolumn=0
+hi foldcolumn guibg=bg
+hi VertSplit guibg=bg guifg=bg
+highlight VertSplit cterm=NONE
+
+
+" " Not sure if i want these settings :
+" let g:javascript_conceal_function             = "ƒ"
+" let g:javascript_conceal_null                 = "ø"
+" let g:javascript_conceal_this                 = "@"
+" let g:javascript_conceal_return               = "⇚"
+" let g:javascript_conceal_undefined            = "¿"
+" let g:javascript_conceal_NaN                  = "ℕ"
+" let g:javascript_conceal_prototype            = "¶"
+" let g:javascript_conceal_static               = "•"
+" let g:javascript_conceal_super                = "Ω"
+" let g:javascript_conceal_arrow_function       = "⇒"
+" let g:javascript_conceal_noarg_arrow_function = "🞅"
+" let g:javascript_conceal_underscore_arrow_function = "🞅"
+" augroup javascript_folding
+"     au!
+"     au FileType javascript setlocal foldmethod=syntax
+" augroup END
 
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
@@ -149,66 +128,6 @@ if executable('ag')
 endif
 
 let mapleader = "\<Space>"
-" Make Ranger replace netrw and be the file explorer
-" let g:rnvimr_ex_enable = 1
-" let g:rnvimr_draw_border = 1
-" " Make Ranger to be hidden after picking a file
-" let g:rnvimr_pick_enable = 1
-" " Make Neovim to wipe the buffers corresponding to the files deleted by Ranger
-" let g:rnvimr_bw_enable = 1
-" let g:rnvimr_ranger_cmd = 'ranger --cmd="set column_ratios 1,1"'
-"             " \ --cmd="set draw_borders separators"'
-" let g:rnvimr_layout = { 'relative': 'editor',
-"             \ 'width': float2nr(round(0.6 * &columns)),
-"             \ 'height': float2nr(round(0.6 * &lines)),
-"             \ 'col': float2nr(round(0.2 * &columns)),
-"             \ 'row': float2nr(round(0.2 * &lines)),
-"             \ 'style': 'minimal' }
-" let g:rnvimr_presets = [
-"             \ {'width': 0.800, 'height': 0.800}]
-
-" let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
-" let g:ranger_map_keys = 0
-
-
-" let NERDTreeShowHidden=1
-" let g:NERDTreeWinSize=45
-" let g:NERDTreeQuitOnOpen=0
-" let g:NERDTreeAutoDeleteBuffer=1
-
-" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-"   exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-"   exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-" endfunction
-" let g:NERDTreeIgnore = ['^node_modules$', '\.git$[[dir]]']
-" autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
-" au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
-" " indentLine
-" let g:indentLine_char = '▏'
-" let NERDTreeShowHidden=1
-" let NERDTreeIgnore=['\.png$', '\.jpg$', '\.gif$', '\.mp3$', '\.ogg$', '\.mp4$',
-"       \ '\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$',
-"       \ '\.rar$']
-" let NERDTreeMinimalUI = 1
-" let g:NERDTreeDirArrowExpandable = ''
-" let g:NERDTreeDirArrowCollapsible = ''
-" let g:NERDTreeGitStatusWithFlags = 1
-" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-" let g:NERDTreeGitStatusNodeColorization = 1
-" let g:NERDTreeIndicatorMapCustom = {
-"       \ "Modified"  : "✹",
-"       \ "Staged"    : "✚",
-"       \ "Untracked" : "",
-"       \ "Renamed"   : "➜",
-"       \ "Unmerged"  : "═",
-"       \ "Deleted"   : "✖",
-"       \ "Dirty"     : "✹",
-"       \ "Clean"     : "✔︎",
-"       \ 'Ignored'   : '☒',
-"       \ "Unknown"   : ""
-"       \ }
 
 " Vim DevIcons
 exe 'source' stdpath('config') . '/extras/devicons.vim'
@@ -272,22 +191,6 @@ endif
 " au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%%', 'maxlinenr', ' :%3v'])
 au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['%3p%%'])
 
-" open NERDTree automatically
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * NERDTree
-"
-"
-"" scrooloose/nerdtree
-" "" open a NERDTree automatically when vim starts up
-" autocmd vimenter * NERDTree | wincmd p
-" "" close vim if the only window left open is a NERDTree
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " close vim if the only window left open is a NERDTree
-" "" open a NERDTree automatically when vim starts up if no files were specified
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" "" open NERDTree automatically when vim starts up on opening a directory
-" autocmd StdinReadPre * let s:std_in=0
-" autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
 
 
@@ -299,10 +202,6 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " run prettier on save
 "let g:prettier#autoformat = 0
 "autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-
-
-" ctrlp
-" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 
 set smarttab
@@ -523,7 +422,7 @@ set shortmess     =aoOTI
 set showcmd
 set showmatch
 set showmode
-set number
+" set number
 syntax sync minlines=200
 syntax sync maxlines=500
 " set relativenumber
@@ -545,10 +444,10 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'actags -R --exclude=.git --exclude=node_modules --exclude=.idea'
-"command! FZF FloatermNew fzf
+command! FZF FloatermNew fzf
 " The Silver Searcher
 if executable('ag')
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore-dir .git --ignore-dir node_modules -g ""'
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
@@ -559,12 +458,16 @@ command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
       \   fzf#vim#with_preview(), <bang>0)
+
+"rg --files --hidden --follow --glob "!{.git,.svn,node_modules,bower_components}"
 set grepprg=rg\ --vimgrep
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!{.git,node_modules}" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+" command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!{.git/*,node_modules}" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 
 " Always enable preview window on the right with 60% width
-let g:fzf_preview_window = 'right:60%'
+" let g:fzf_preview_window = 'right:60%'
+let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -611,7 +514,8 @@ endif
 
 if has('folding')
   if has('windows')
-    set fillchars=vert:┃              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+    set fillchars=vert:'              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+    " set fillchars=vert:┃              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
   endif
   set foldmethod=indent               " not as cool as syntax, but faster
   set foldlevelstart=99               " start unfolded
@@ -625,7 +529,6 @@ set re=1
 " set foldopen     -=hor
 " set foldopen     +=jump
 " set foldtext      =mhi#foldy()
-set ttyfast
 set nocompatible
 " set foldlevel=1
 " set foldlevelstart=1
@@ -648,6 +551,7 @@ set diffopt      +=vertical,foldcolumn:0,indent-heuristic,algorithm:patience
 set hidden
 set history       =1000
 set lazyredraw
+set ttyfast
 set norelativenumber
 set redrawtime=10000
 set noerrorbells
@@ -938,7 +842,7 @@ let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
 " adding debugging options
 " let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
-let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
+let g:which_key_map['e'] = [ ':LuaTreeToggle'             , 'explorer' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
 let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
 let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
@@ -996,7 +900,7 @@ let g:which_key_map.o = {
       \'a' : ['Angular'                , 'B4200'],
       \'g' : ['GraphQl 3000'           , 'B3000'],
       \'py': ['pserver 8000'           , 'B3000'],
-      \'p' : [':CocCommand explorer'   , 'File explorer'],
+      \'p' : [':LuaTreeToggle'   , 'File explorer'],
       \'n' : ['NnnPicker'              , 'nnn File explorer']
       \ }
 " \'p' : ['NERDTreeToggle'         , 'File explorer'],
@@ -1165,3 +1069,82 @@ let g:which_key_map.t = {
 
 call which_key#register('<Space>', "g:which_key_map")
 
+
+
+let g:lua_tree_side = 'left' "left by default
+let g:lua_tree_width = 40 "30 by default
+let g:lua_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
+let g:lua_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+let g:lua_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+let g:lua_tree_quit_on_open = 0 "0 by default, closes the tree when you open a file
+let g:lua_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+let g:lua_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+let g:lua_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
+let g:lua_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:lua_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+let g:lua_tree_tab_open =  0 "0 by default, will open the tree when entering a new tab and the tree was previously open
+let g:lua_tree_allow_resize = 1 "0 by default, will not resize the tree when opening a file
+" let g:lua_tree_show_icons = {
+"     \ 'git': 1,
+"     \ 'folders': 0,
+"     \ 'files': 0,
+"     \ }
+"If 0, do not show the icons for one of 'git' 'folder' and 'files'
+"1 by default, notice that if 'files' is 1, it will only display
+"if nvim-web-devicons is installed and on your runtimepath
+
+" You can edit keybindings be defining this variable
+" You don't have to define all keys.
+" NOTE: the 'edit' key will wrap/unwrap a folder and open a file
+let g:lua_tree_bindings = {
+    \ 'edit':            ['<CR>', 'l'],
+    \ 'edit_vsplit':     '<C-v>',
+    \ 'edit_split':      '<C-x>',
+    \ 'edit_tab':        '<C-t>',
+    \ 'close_node':      ['<S-CR>', 'h'],
+    \ 'toggle_ignored':  'I',
+    \ 'toggle_dotfiles': '.',
+    \ 'refresh':         'R',
+    \ 'preview':         '<Tab>',
+    \ 'cd':              '<C-]>',
+    \ 'create':          'a',
+    \ 'remove':          'd',
+    \ 'rename':          'r',
+    \ 'cut':             'x',
+    \ 'copy':            'c',
+    \ 'paste':           'p',
+    \ 'prev_git_item':   '[c',
+    \ 'next_git_item':   ']c',
+    \ }
+
+" Disable default mappings by plugin
+" Bindings are enable by default, disabled on any non-zero value
+" let lua_tree_disable_keybindings=1
+
+" default will show icon by default if no icon is provided
+" default shows no icon by default
+let g:lua_tree_icons = {
+    \ 'default': '',
+    \ 'symlink': '',
+    \ 'git': {
+    \   'unstaged': "✗",
+    \   'staged': "✓",
+    \   'unmerged': "",
+    \   'renamed': "➜",
+    \   'untracked': "★"
+    \   },
+    \ 'folder': {
+    \   'default': "",
+    \   'open': ""
+    \   }
+    \ }
+
+" nnoremap <C-n> :LuaTreeToggle<CR>
+" nnoremap <leader>r :LuaTreeRefresh<CR>
+" nnoremap <leader>n :LuaTreeFindFile<CR>
+" LuaTreeOpen and LuaTreeClose are also available if you need them
+
+" set termguicolors " this variable must be enabled for colors to be applied properly
+
+" a list of groups can be found at `:help lua_tree_highlight`
+" highlight LuaTreeFolderIcon guibg=blue1

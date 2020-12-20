@@ -323,6 +323,17 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_matching_smart_case = 1
 let g:completion_trigger_on_delete = 1
+
+let g:signify_sign_add = '▎'
+let g:signify_sign_delete = '▎'
+let g:signify_sign_delete_first_line = '▎'
+let g:signify_sign_change = '▎'
+
+call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
+
 lua << EOF
    require'colorizer'.setup()
    local nvim_lsp = require('lspconfig')

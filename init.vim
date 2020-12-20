@@ -1,9 +1,11 @@
 call plug#begin('~/.config/nvim/bundle')
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 " Plug 'jonathanfilip/vim-lucius'
 " Plug 'joshdick/onedark.vim'
 " Plug 'sainnhe/vim-color-forest-night'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 " Plug 'preservim/nerdtree'
 Plug 'icymind/NeoSolarized'
 " Plug 'kaicataldo/material.vim'
@@ -31,10 +33,10 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'antoinemadec/coc-fzf'
+" Plug 'antoinemadec/coc-fzf'
 " Plug 'airblade/vim-rooter'
 " Plug 'iamcco/coc-angular'
-Plug 'scrooloose/nerdcommenter'
+" Plug 'scrooloose/nerdcommenter'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
 " Plug 'majutsushi/tagbar'
@@ -50,9 +52,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'itchyny/lightline.vim'
-Plug 'machakann/vim-highlightedyank'
+" Plug 'machakann/vim-highlightedyank'
 " Plug 'ntpeters/vim-better-whitespace'
-Plug 'jlanzarotta/bufexplorer'
+" Plug 'jlanzarotta/bufexplorer'
 " Plug 'Yggdroot/indentLine'
 " Plug 'unblevable/quick-scope'
 " Plug 'metakirby5/codi.vim'
@@ -313,9 +315,33 @@ function! CloseAllBuffersButCurrent()
 endfunction
 
 nmap <Leader> :call CloseAllBuffersButCurrent()<CR>
+let g:diagnostic_virtual_text_prefix = ''
+let g:diagnostic_enable_virtual_text = 1
 
+let g:completion_confirm_key = "\<C-y>"
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_matching_smart_case = 1
+let g:completion_trigger_on_delete = 1
 lua << EOF
    require'colorizer'.setup()
+   local nvim_lsp = require('lspconfig')
+  local on_attach = function(_, bufnr)
+    require('completion').on_attach()
+    local opts = { noremap=true, silent=true }
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>xd', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+  end
+  local servers = {'jsonls', 'vimls', 'tsserver', 'cssls', 'html' , 'angularls'}
+  for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup {
+      on_attach = on_attach,
+    }
+  end
 EOF
 " coc config Completetion of concur
 " let g:coc_global_extensions = [
@@ -422,7 +448,7 @@ set shortmess     =aoOTI
 set showcmd
 set showmatch
 set showmode
-" set number
+set number
 syntax sync minlines=200
 syntax sync maxlines=500
 " set relativenumber
@@ -546,7 +572,6 @@ set tagcase       =match
 " misc settings
 set backspace     =indent,eol,start
 " set clipboard     =unnamed
-set completeopt-=noselect
 set diffopt      +=vertical,foldcolumn:0,indent-heuristic,algorithm:patience
 set hidden
 set history       =1000
@@ -586,7 +611,8 @@ autocmd BufReadPost *
       \ endif
 " center buffer around cursor when opening files
 autocmd BufRead * normal zz
-set complete=.,w,b,u,t,k
+" set complete=.,w,b,u,t,k
+set cot=menuone,noinsert,noselect shm+=c
 " let g:gitgutter_max_signs = 1000  " default value
 autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
 autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
@@ -988,13 +1014,13 @@ let g:which_key_map.g = {
       \ }
 
 " Why i added seperate language server bindings :/
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <F2> <Plug>(coc-rename)
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+" nmap <F2> <Plug>(coc-rename)
 " l is for language server protocol
 let g:which_key_map.l = {
       \ 'name' : '+lsp' ,

@@ -1,4 +1,19 @@
 ### Prompt
+
+# function codi() {
+#    local syntax="${1:-python}"
+#    shift
+#    nvim -c \
+#      "let g:startify_disable_at_vimenter = 1 |\
+#      set bt=nofile ls=0 noru nonu nornu |\
+#      hi CodiVirtualText guifg=red
+#      hi ColorColumn ctermbg=NONE |\
+#      hi VertSplit ctermbg=NONE |\
+#      hi NonText ctermfg=0 |\
+#      Codi $syntax" "$@"
+# }
+
+
 if [ "$(uname)" = "Darwin" ]; then
   # Set 60 fps key repeat rate
   #
@@ -140,6 +155,7 @@ alias ms='tmuxinator-fzf-start.sh'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+# alias code="$(codi)"
 alias ..='cd ..'
 alias yabr='brew services restart yabai'
 alias skhdr='brew services restart koekeishiya/formulae/skhd'
@@ -155,7 +171,9 @@ alias emn='emacsClient -c -n'
 alias emc='emacsClient'
 alias work='cd ~/Documents/Arthrexact/'
 alias ops='cd ~/Documents/openSource/'
-alias emr='~/.emacs.d/bin/doom refresh'
+alias emr='~/.emacs.d/bin/doom sync'
 alias teams='sudo /Applications/Microsoft\ Teams.app/Contents/MacOS/Teams'
 alias cute='/Applications/qutebrowser.app/Contents/MacOS/qutebrowser'
 export NODE_ENV=development
+# eval "$(starship init bash)"
+source "$HOME/.cargo/env"

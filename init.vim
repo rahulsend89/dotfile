@@ -3,9 +3,9 @@ call plug#begin('~/.config/nvim/bundle')
 " Plug 'jonathanfilip/vim-lucius'
 " Plug 'joshdick/onedark.vim'
 " Plug 'sainnhe/vim-color-forest-night'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'nvim-lua/completion-nvim'
 " Plug 'preservim/nerdtree'
 Plug 'icymind/NeoSolarized'
 " Plug 'kaicataldo/material.vim'
@@ -15,6 +15,8 @@ Plug 'icymind/NeoSolarized'
 " " master (neovim git)
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+" Plug 'glepnir/indent-guides.nvim'
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-startify'
@@ -77,6 +79,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(3) } }
 " color css
 Plug 'norcalli/nvim-colorizer.lua'
+" Plug 'jelera/vim-javascript-syntax'
 " Initialize plugin system
 call plug#end()
 
@@ -315,45 +318,47 @@ function! CloseAllBuffersButCurrent()
 endfunction
 
 nmap <Leader> :call CloseAllBuffersButCurrent()<CR>
-let g:diagnostic_virtual_text_prefix = ''
-let g:diagnostic_enable_virtual_text = 1
+" let g:diagnostic_virtual_text_prefix = ''
+" let g:diagnostic_enable_virtual_text = 1
 
-let g:completion_confirm_key = "\<C-y>"
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-let g:completion_enable_snippet = 'UltiSnips'
-let g:completion_matching_smart_case = 1
-let g:completion_trigger_on_delete = 1
+" let g:completion_confirm_key = "\<C-y>"
+" let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+" let g:completion_enable_snippet = 'UltiSnips'
+" let g:completion_matching_smart_case = 1
+" let g:completion_trigger_on_delete = 1
 
-let g:signify_sign_add = '▎'
-let g:signify_sign_delete = '▎'
-let g:signify_sign_delete_first_line = '▎'
-let g:signify_sign_change = '▎'
+" let g:signify_sign_add = '▎'
+" let g:signify_sign_delete = '▎'
+" let g:signify_sign_delete_first_line = '▎'
+" let g:signify_sign_change = '▎'
 
-call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
+" call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
+" call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
+" call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
+" call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
 
 lua << EOF
    require'colorizer'.setup()
-   local nvim_lsp = require('lspconfig')
-  local on_attach = function(_, bufnr)
-    require('completion').on_attach()
-    local opts = { noremap=true, silent=true }
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>xd', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
-  end
-  local servers = {'jsonls', 'vimls', 'tsserver', 'cssls', 'html' , 'angularls'}
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-      on_attach = on_attach,
-    }
-  end
 EOF
+
+
+ " local nvim_lsp = require('lspconfig')
+" local on_attach = function(_, bufnr)
+ "  require('completion').on_attach()
+ "  local opts = { noremap=true, silent=true }
+ "  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+ "  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+ "  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+ "  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+ "  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+ "  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>xd', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+" end
+" local servers = {'jsonls', 'vimls', 'tsserver', 'cssls', 'bashls', 'html' , 'angularls'}
+" for _, lsp in ipairs(servers) do
+ "  nvim_lsp[lsp].setup {
+ "    on_attach = on_attach,
+ "  }
+" end
 " coc config Completetion of concur
 " let g:coc_global_extensions = [
 "   \ 'coc-snippets',
@@ -459,13 +464,13 @@ set shortmess     =aoOTI
 set showcmd
 set showmatch
 set showmode
-set number
+" set number
 syntax sync minlines=200
-syntax sync maxlines=500
+syntax sync maxlines=300
 " set relativenumber
 
 set laststatus=2
-" set colorcolumn=100
+set colorcolumn=120
 
 set wrap                          " Turn on line wrapping.
 set scrolloff=8                   " Show 3 lines of context around the cursor.
@@ -879,7 +884,7 @@ let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
 " adding debugging options
 " let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
-let g:which_key_map['e'] = [ ':LuaTreeToggle'             , 'explorer' ]
+let g:which_key_map['e'] = [ ':NvimTreeToggle'             , 'explorer' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
 let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
 let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
@@ -937,7 +942,7 @@ let g:which_key_map.o = {
       \'a' : ['Angular'                , 'B4200'],
       \'g' : ['GraphQl 3000'           , 'B3000'],
       \'py': ['pserver 8000'           , 'B3000'],
-      \'p' : [':LuaTreeToggle'   , 'File explorer'],
+      \'p' : [':NvimTreeToggle'   , 'File explorer'],
       \'n' : ['NnnPicker'              , 'nnn File explorer']
       \ }
 " \'p' : ['NERDTreeToggle'         , 'File explorer'],
@@ -1025,13 +1030,13 @@ let g:which_key_map.g = {
       \ }
 
 " Why i added seperate language server bindings :/
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-" nmap <F2> <Plug>(coc-rename)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <F2> <Plug>(coc-rename)
 " l is for language server protocol
 let g:which_key_map.l = {
       \ 'name' : '+lsp' ,
@@ -1108,19 +1113,41 @@ call which_key#register('<Space>', "g:which_key_map")
 
 
 
-let g:lua_tree_side = 'left' "left by default
-let g:lua_tree_width = 40 "30 by default
-let g:lua_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
-let g:lua_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-let g:lua_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
-let g:lua_tree_quit_on_open = 0 "0 by default, closes the tree when you open a file
-let g:lua_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-let g:lua_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-let g:lua_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
-let g:lua_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-let g:lua_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
-let g:lua_tree_tab_open =  0 "0 by default, will open the tree when entering a new tab and the tree was previously open
-let g:lua_tree_allow_resize = 1 "0 by default, will not resize the tree when opening a file
+let g:nvim_tree_side = 'left' "left by default
+let g:nvim_tree_width = 40 "30 by default
+let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
+let g:nvim_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+" let g:nvim_tree_auto_ignore_ft = {'startify','dashboard'} "empty by default, don't auto open tree on specific filetypes.
+let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
+let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+let g:nvim_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
+let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+let g:nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
+let g:nvim_tree_width_allow_resize  = 1 "0 by default, will not resize the tree when opening a file
+let g:nvim_tree_disable_netrw = 0 "1 by default, disables netrw
+let g:nvim_tree_hijack_netrw = 0 "1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
+let g:nvim_tree_show_icons = {
+    \ 'git': 1,
+    \ 'folders': 0,
+    \ 'files': 0,
+    \ }
+
+" let g:nvim_tree_side = 'left' "left by default
+" let g:nvim_tree_width = 40 "30 by default
+" let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
+" let g:nvim_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+" let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+" let g:nvim_tree_quit_on_open = 0 "0 by default, closes the tree when you open a file
+" let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+" let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+" let g:nvim_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
+" let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+" let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+" let g:nvim_tree_tab_open =  0 "0 by default, will open the tree when entering a new tab and the tree was previously open
+" let g:nvim_tree_allow_resize = 1 "0 by default, will not resize the tree when opening a file
 " let g:lua_tree_show_icons = {
 "     \ 'git': 1,
 "     \ 'folders': 0,
@@ -1133,26 +1160,64 @@ let g:lua_tree_allow_resize = 1 "0 by default, will not resize the tree when ope
 " You can edit keybindings be defining this variable
 " You don't have to define all keys.
 " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
-let g:lua_tree_bindings = {
-    \ 'edit':            ['<CR>', 'l'],
-    \ 'edit_vsplit':     '<C-v>',
-    \ 'edit_split':      '<C-x>',
-    \ 'edit_tab':        '<C-t>',
-    \ 'close_node':      ['<S-CR>', 'h'],
-    \ 'toggle_ignored':  'I',
-    \ 'toggle_dotfiles': '.',
-    \ 'refresh':         'R',
-    \ 'preview':         '<Tab>',
-    \ 'cd':              '<C-]>',
-    \ 'create':          'a',
-    \ 'remove':          'd',
-    \ 'rename':          'r',
-    \ 'cut':             'x',
-    \ 'copy':            'c',
-    \ 'paste':           'p',
-    \ 'prev_git_item':   '[c',
-    \ 'next_git_item':   ']c',
-    \ }
+
+lua <<EOF
+    local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+    vim.g.nvim_tree_bindings = {
+      ["<CR>"] = ":YourVimFunction()<cr>",
+      ["u"] = ":lua require'some_module'.some_function()<cr>",
+
+      -- default mappings
+      ["<CR>"]           = tree_cb("edit"),
+      ["l"]           = tree_cb("edit"),
+      ["o"]              = tree_cb("edit"),
+      ["<2-LeftMouse>"]  = tree_cb("edit"),
+      ["<2-RightMouse>"] = tree_cb("cd"),
+      ["<C-]>"]          = tree_cb("cd"),
+      ["<C-v>"]          = tree_cb("vsplit"),
+      ["<C-x>"]          = tree_cb("split"),
+      ["<C-t>"]          = tree_cb("tabnew"),
+      ["<BS>"]           = tree_cb("close_node"),
+      ["h"]           = tree_cb("close_node"),
+      ["<S-CR>"]         = tree_cb("close_node"),
+      ["<Tab>"]          = tree_cb("preview"),
+      ["I"]              = tree_cb("toggle_ignored"),
+      ["."]              = tree_cb("toggle_dotfiles"),
+      ["R"]              = tree_cb("refresh"),
+      ["a"]              = tree_cb("create"),
+      ["d"]              = tree_cb("remove"),
+      ["r"]              = tree_cb("rename"),
+      ["<C-r>"]          = tree_cb("full_rename"),
+      ["x"]              = tree_cb("cut"),
+      ["c"]              = tree_cb("copy"),
+      ["p"]              = tree_cb("paste"),
+      ["[c"]             = tree_cb("prev_git_item"),
+      ["]c"]             = tree_cb("next_git_item"),
+      ["-"]              = tree_cb("dir_up"),
+      ["q"]              = tree_cb("close"),
+    }
+EOF
+
+" let g:nvim_tree_bindings= {
+"     \ 'edit':            ['<CR>', 'l'],
+"     \ 'edit_vsplit':     '<C-v>',
+"     \ 'edit_split':      '<C-x>',
+"     \ 'edit_tab':        '<C-t>',
+"     \ 'close_node':      ['<S-CR>', 'h'],
+"     \ 'toggle_ignored':  'I',
+"     \ 'toggle_dotfiles': '.',
+"     \ 'refresh':         'R',
+"     \ 'preview':         '<Tab>',
+"     \ 'cd':              '<C-]>',
+"     \ 'create':          'a',
+"     \ 'remove':          'd',
+"     \ 'rename':          'r',
+"     \ 'cut':             'x',
+"     \ 'copy':            'c',
+"     \ 'paste':           'p',
+"     \ 'prev_git_item':   '[c',
+"     \ 'next_git_item':   ']c',
+"     \ }
 
 " Disable default mappings by plugin
 " Bindings are enable by default, disabled on any non-zero value
@@ -1160,7 +1225,7 @@ let g:lua_tree_bindings = {
 
 " default will show icon by default if no icon is provided
 " default shows no icon by default
-let g:lua_tree_icons = {
+let g:nvim_tree_icons = {
     \ 'default': '',
     \ 'symlink': '',
     \ 'git': {
@@ -1172,11 +1237,16 @@ let g:lua_tree_icons = {
     \   },
     \ 'folder': {
     \   'default': "",
-    \   'open': ""
+    \   'open': "",
+    \   'empty': "",
+    \   'empty_open': "",
+    \   'symlink': "",
     \   }
     \ }
 
-" nnoremap <C-n> :LuaTreeToggle<CR>
+" highlight NvimTreeFolderIcon guibg=blue
+
+" nnoremap <C-n> :NvimTreeToggle<CR>
 " nnoremap <leader>r :LuaTreeRefresh<CR>
 " nnoremap <leader>n :LuaTreeFindFile<CR>
 " LuaTreeOpen and LuaTreeClose are also available if you need them

@@ -17,7 +17,7 @@ Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 " Plug 'glepnir/indent-guides.nvim'
-" Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 " Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-startify'
 " Plug 'mhinz/vim-tree'
@@ -51,9 +51,9 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'terryma/vim-multiple-cursors'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'jreybert/vimagit'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 " Plug 'machakann/vim-highlightedyank'
 " Plug 'ntpeters/vim-better-whitespace'
 " Plug 'jlanzarotta/bufexplorer'
@@ -70,7 +70,7 @@ Plug 'elzr/vim-json'
  Plug 'liuchengxu/vim-which-key'
  " Zen mode
 Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/limelight.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 " " Track the engine.
@@ -82,6 +82,9 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Plug 'jelera/vim-javascript-syntax'
 " Initialize plugin system
 call plug#end()
+
+" map  <Leader>m <Plug>(easymotion-bd-f)
+" nmap <Leader>m <Plug>(easymotion-overwin-f)
 
 hi LineNr guibg=bg
 " set foldcolumn=0
@@ -108,8 +111,8 @@ highlight VertSplit cterm=NONE
 "     au FileType javascript setlocal foldmethod=syntax
 " augroup END
 
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+" autocmd! User GoyoEnter Limelight
+" autocmd! User GoyoLeave Limelight!
 let g:goyo_width = 120
 " let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
 " if !filereadable(autoload_plug_path)
@@ -136,15 +139,15 @@ let mapleader = "\<Space>"
 
 " Vim DevIcons
 exe 'source' stdpath('config') . '/extras/devicons.vim'
-" " lightline
-" let g:neosolarized_bold = 1
-" let g:neosolarized_underline = 1
-" let g:neosolarized_italic = 1
-" let g:lightline = {
-"     \   'colorscheme': 'solarized',
-"     \   'component': { 'lineinfo': '⭡ %3l:%-2v' },
-"     \ }
-" exe 'source' stdpath('config') . '/lightline.vim'
+" lightline
+let g:neosolarized_bold = 1
+let g:neosolarized_underline = 1
+let g:neosolarized_italic = 1
+let g:lightline = {
+    \   'colorscheme': 'solarized',
+    \   'component': { 'lineinfo': '⭡ %3l:%-2v' },
+    \ }
+exe 'source' stdpath('config') . '/lightline.vim'
 highlight clear IncSearch
 highlight IncSearch term=reverse cterm=reverse ctermfg=7 ctermbg=0 guifg=Black guibg=White
 highlight Comment cterm=italic gui=italic
@@ -194,7 +197,7 @@ else
 endif
 
 " au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%%', 'maxlinenr', ' :%3v'])
-au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['%3p%%'])
+" au User AirlineAfterInit  :let g:airline_section_z = airline#section#create(['%3p%%'])
 
 
 
@@ -220,50 +223,50 @@ set encoding=UTF-8
 
 
 " Color
-function! s:colors_default() abort
-  highlight Comment cterm=italic
-  highlight link User1 StatusLine   " master branch
-  highlight link User2 StatusLine   " other branch
-  highlight link User3 StatusLine   " separators
-  highlight link User4 StatusLine   " filename at beginning
-  highlight link User5 StatusLine   " ~changes
-  highlight link SignifySignAdd    DiffAdd
-  highlight link SignifySignDelete DiffDelete
-  highlight link SignifySignChange DiffChange
-  highlight Halo guifg=white guibg=#F92672 ctermfg=white ctermbg=197
-endfunction
+" function! s:colors_default() abort
+"   highlight Comment cterm=italic
+"   highlight link User1 StatusLine   " master branch
+"   highlight link User2 StatusLine   " other branch
+"   highlight link User3 StatusLine   " separators
+"   highlight link User4 StatusLine   " filename at beginning
+"   highlight link User5 StatusLine   " ~changes
+"   highlight link SignifySignAdd    DiffAdd
+"   highlight link SignifySignDelete DiffDelete
+"   highlight link SignifySignChange DiffChange
+"   highlight Halo guifg=white guibg=#F92672 ctermfg=white ctermbg=197
+" endfunction
 
-function! s:colors_janah() abort
-  highlight User1  ctermfg=192 ctermbg=237 cterm=NONE
-  highlight User2  ctermfg=167 ctermbg=237 cterm=NONE
-  highlight User3  ctermfg=245 ctermbg=237 cterm=NONE
-  highlight User4  ctermfg=215 ctermbg=237 cterm=NONE
-  highlight User5  ctermfg=111 ctermbg=237 cterm=NONE
-endfunction
+" function! s:colors_janah() abort
+"   highlight User1  ctermfg=192 ctermbg=237 cterm=NONE
+"   highlight User2  ctermfg=167 ctermbg=237 cterm=NONE
+"   highlight User3  ctermfg=245 ctermbg=237 cterm=NONE
+"   highlight User4  ctermfg=215 ctermbg=237 cterm=NONE
+"   highlight User5  ctermfg=111 ctermbg=237 cterm=NONE
+" endfunction
 
-function! s:colors_lucius() abort
-  if &background ==# 'light'
-    highlight Normal                  ctermbg=NONE guibg=NONE
-    highlight CursorLine              ctermbg=255
-    highlight User1      ctermfg=84   ctermbg=237  cterm=NONE
-    highlight User2      ctermfg=222  ctermbg=237  cterm=NONE
-    highlight User3      ctermfg=237  ctermbg=237  cterm=NONE
-    highlight User4      ctermfg=255  ctermbg=237  cterm=NONE
-    highlight User5      ctermfg=255  ctermbg=237  cterm=NONE
-    highlight StatusLine              ctermbg=237  cterm=NONE
-    highlight SignColumn ctermfg=NONE ctermbg=NONE cterm=NONE
-    highlight Question   ctermfg=24   ctermbg=255  cterm=NONE
-    highlight Search     ctermfg=fg   ctermbg=222  cterm=NONE
-    highlight Folded                  ctermbg=253  cterm=NONE
-    highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
-  endif
-endfunction
+" function! s:colors_lucius() abort
+"   if &background ==# 'light'
+"     highlight Normal                  ctermbg=NONE guibg=NONE
+"     highlight CursorLine              ctermbg=255
+"     highlight User1      ctermfg=84   ctermbg=237  cterm=NONE
+"     highlight User2      ctermfg=222  ctermbg=237  cterm=NONE
+"     highlight User3      ctermfg=237  ctermbg=237  cterm=NONE
+"     highlight User4      ctermfg=255  ctermbg=237  cterm=NONE
+"     highlight User5      ctermfg=255  ctermbg=237  cterm=NONE
+"     highlight StatusLine              ctermbg=237  cterm=NONE
+"     highlight SignColumn ctermfg=NONE ctermbg=NONE cterm=NONE
+"     highlight Question   ctermfg=24   ctermbg=255  cterm=NONE
+"     highlight Search     ctermfg=fg   ctermbg=222  cterm=NONE
+"     highlight Folded                  ctermbg=253  cterm=NONE
+"     highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
+"   endif
+" endfunction
 
-augroup vimrc
-  autocmd ColorScheme *      call s:colors_default()
-  autocmd ColorScheme janah  call s:colors_janah()
-  autocmd ColorScheme lucius call s:colors_lucius()
-augroup END
+" augroup vimrc
+"   autocmd ColorScheme *      call s:colors_default()
+"   autocmd ColorScheme janah  call s:colors_janah()
+"   autocmd ColorScheme lucius call s:colors_lucius()
+" augroup END
 
 if has('gui_running')
   set background=light
@@ -276,6 +279,8 @@ if has('gui_running')
   elseif has('gui_macvim')
     set macmeta
     let &guifont = 'FiraCode Nerd Font:h13'
+    " let &guifont = 'SauceCodePro Nerd Font:h17'
+    " let &guifont = 'Hack\\ Nerd\\ Font\\ Mono'
   endif
   command! Bigger  let &guifont = substitute(&guifont, '\d\+', '\=submatch(0)+1', '')
   command! Smaller let &guifont = substitute(&guifont, '\d\+', '\=submatch(0)-1', '')
@@ -300,12 +305,13 @@ else
     set termguicolors
   endif
   let g:solarized_termcolors=256
+  let g:onedark_terminal_italics=1
   let g:neosolarized_contrast = "high"
   let g:neosolarized_visibility = 'high'
   set t_8f=^[[38;2;%lu;%lu;%lum
   set t_8b=^[[48;2;%lu;%lu;%lum
   set background=dark
-  colorscheme NeoSolarized
+  colorscheme lunar
 endif
 
 
@@ -469,8 +475,7 @@ syntax sync minlines=200
 syntax sync maxlines=300
 " set relativenumber
 
-set laststatus=2
-set colorcolumn=120
+" set colorcolumn=120
 
 set wrap                          " Turn on line wrapping.
 set scrolloff=8                   " Show 3 lines of context around the cursor.
@@ -501,7 +506,8 @@ command! -bang -nargs=* Rg
       \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
       \   fzf#vim#with_preview(), <bang>0)
 
-"rg --files --hidden --follow --glob "!{.git,.svn,node_modules,bower_components}"
+
+" rg --files --hidden --follow --glob "!{.git,.svn,node_modules,bower_components}"
 set grepprg=rg\ --vimgrep
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!{.git,node_modules}" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 " command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!{.git/*,node_modules}" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
@@ -818,9 +824,9 @@ command! B4200 call <sid>OpenTab(0, 1,4200)
 command! B3000 call <sid>OpenTab(0, 1,3000)
 command! B8000 call <sid>OpenTab(0, 1,8000)
 " Hide status line
-autocmd! FileType which_key
-autocmd  FileType which_key set laststatus=0 noshowmode noruler
-  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+" autocmd! FileType which_key
+" autocmd  FileType which_key set laststatus=0 noshowmode noruler
+"   \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
 
  "Because of some bug command+/ dont work so i send ++ keys from alacritty
@@ -892,6 +898,7 @@ let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
 let g:which_key_map['W'] = [ 'w'                          , 'write' ]
 let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
 let g:which_key_map['i'] = [ ':CocList marketplace'       , 'Coc marketplace' ]
+let g:which_key_map['f'] = [ ':Files'       , 'search files' ]
 silent! nmap <leader>fr :History<CR>
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
@@ -906,6 +913,7 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
+nnoremap <leader>j :%!jq .<CR>
 " Group mappings
 " w is for actions
 let g:which_key_map.w = {
@@ -1112,89 +1120,142 @@ let g:which_key_map.t = {
 call which_key#register('<Space>', "g:which_key_map")
 
 
-
 let g:nvim_tree_side = 'left' "left by default
-let g:nvim_tree_width = 40 "30 by default
+let g:nvim_tree_width = 40 "30 by default, can be width_in_columns or 'width_in_percent%'
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
-let g:nvim_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+let g:nvim_tree_gitignore = 1 "0 by default
+let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
 let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
-" let g:nvim_tree_auto_ignore_ft = {'startify','dashboard'} "empty by default, don't auto open tree on specific filetypes.
+let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
 let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
 let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
 let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
 let g:nvim_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
 let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
 let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
 let g:nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
-let g:nvim_tree_width_allow_resize  = 1 "0 by default, will not resize the tree when opening a file
+let g:nvim_tree_auto_resize = 0 "1 by default, will resize the tree to its saved width when opening a file
 let g:nvim_tree_disable_netrw = 0 "1 by default, disables netrw
 let g:nvim_tree_hijack_netrw = 0 "1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
+let g:nvim_tree_add_trailing = 1 "0 by default, append a trailing slash to folder names
+let g:nvim_tree_group_empty = 1 " 0 by default, compact folders that only contain a single folder into one node in the file tree
+let g:nvim_tree_lsp_diagnostics = 1 "0 by default, will show lsp diagnostics in the signcolumn. See :help nvim_tree_lsp_diagnostics
+let g:nvim_tree_disable_window_picker = 1 "0 by default, will disable the window picker.
+let g:nvim_tree_hijack_cursor = 0 "1 by default, when moving cursor in the tree, will position the cursor at the start of the file on the current line
+let g:nvim_tree_icon_padding = ' ' "one space by default, used for rendering the space between the icon and the filename. Use with caution, it could break rendering if you set an empty string depending on your font.
+let g:nvim_tree_update_cwd = 1 "0 by default, will update the tree cwd when changing nvim's directory (DirChanged event). Behaves strangely with autochdir set.
+let g:nvim_tree_window_picker_exclude = {
+    \   'filetype': [
+    \     'packer',
+    \     'qf'
+    \   ],
+    \   'buftype': [
+    \     'terminal'
+    \   ]
+    \ }
+" Dictionary of buffer option names mapped to a list of option values that
+" indicates to the window picker that the buffer's window should not be
+" selectable.
+let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
 let g:nvim_tree_show_icons = {
     \ 'git': 1,
     \ 'folders': 0,
     \ 'files': 0,
+    \ 'folder_arrows': 0,
     \ }
-
-" let g:nvim_tree_side = 'left' "left by default
-" let g:nvim_tree_width = 40 "30 by default
-" let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
-" let g:nvim_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-" let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
-" let g:nvim_tree_quit_on_open = 0 "0 by default, closes the tree when you open a file
-" let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-" let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-" let g:nvim_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
-" let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-" let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
-" let g:nvim_tree_tab_open =  0 "0 by default, will open the tree when entering a new tab and the tree was previously open
-" let g:nvim_tree_allow_resize = 1 "0 by default, will not resize the tree when opening a file
-" let g:lua_tree_show_icons = {
-"     \ 'git': 1,
-"     \ 'folders': 0,
-"     \ 'files': 0,
-"     \ }
 "If 0, do not show the icons for one of 'git' 'folder' and 'files'
 "1 by default, notice that if 'files' is 1, it will only display
-"if nvim-web-devicons is installed and on your runtimepath
+"if nvim-web-devicons is installed and on your runtimepath.
+"if folder is 1, you can also tell folder_arrows 1 to show small arrows next to the folder icons.
+"but this will not work when you set indent_markers (because of UI conflict)
 
-" You can edit keybindings be defining this variable
-" You don't have to define all keys.
-" NOTE: the 'edit' key will wrap/unwrap a folder and open a file
+" default will show icon by default if no icon is provided
+" default shows no icon by default
+let g:nvim_tree_icons = {
+    \ 'default': '',
+    \ 'symlink': '',
+    \ 'git': {
+    \   'unstaged': "✗",
+    \   'staged': "✓",
+    \   'unmerged': "",
+    \   'renamed': "➜",
+    \   'untracked': "★",
+    \   'deleted': "",
+    \   'ignored': "◌"
+    \   },
+    \ 'folder': {
+    \   'arrow_open': "",
+    \   'arrow_closed': "",
+    \   'default': "",
+    \   'open': "",
+    \   'empty': "",
+    \   'empty_open': "",
+    \   'symlink': "",
+    \   'symlink_open': "",
+    \   },
+    \   'lsp': {
+    \     'hint': "",
+    \     'info': "",
+    \     'warning': "",
+    \     'error': "",
+    \   }
+    \ }
+
+" nnoremap <C-n> :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+" nnoremap <leader>n :NvimTreeFindFile<CR>
+" NvimTreeOpen and NvimTreeClose are also available if you need them
+
+set termguicolors " this variable must be enabled for colors to be applied properly
+
+" a list of groups can be found at `:help nvim_tree_highlight`
+highlight NvimTreeFolderIcon guibg=blue
+
+"If 0, do not show the icons for one of 'git' 'folder' and 'files'
+"1 by default, notice that if 'files' is 1, it will only display
+"if nvim-web-devicons is installed and on your runtimepath.
+"if folder is 1, you can also tell folder_arrows 1 to show small arrows next to the folder icons.
+"but this will not work when you set indent_markers (because of UI conflict)
+
+" let nvim_tree_disable_keybindings=1
+
 
 lua <<EOF
     local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+    -- default mappings
     vim.g.nvim_tree_bindings = {
-      ["<CR>"] = ":YourVimFunction()<cr>",
-      ["u"] = ":lua require'some_module'.some_function()<cr>",
-
-      -- default mappings
-      ["<CR>"]           = tree_cb("edit"),
-      ["l"]           = tree_cb("edit"),
-      ["o"]              = tree_cb("edit"),
-      ["<2-LeftMouse>"]  = tree_cb("edit"),
-      ["<2-RightMouse>"] = tree_cb("cd"),
-      ["<C-]>"]          = tree_cb("cd"),
-      ["<C-v>"]          = tree_cb("vsplit"),
-      ["<C-x>"]          = tree_cb("split"),
-      ["<C-t>"]          = tree_cb("tabnew"),
-      ["<BS>"]           = tree_cb("close_node"),
-      ["h"]           = tree_cb("close_node"),
-      ["<S-CR>"]         = tree_cb("close_node"),
-      ["<Tab>"]          = tree_cb("preview"),
-      ["I"]              = tree_cb("toggle_ignored"),
-      ["."]              = tree_cb("toggle_dotfiles"),
-      ["R"]              = tree_cb("refresh"),
-      ["a"]              = tree_cb("create"),
-      ["d"]              = tree_cb("remove"),
-      ["r"]              = tree_cb("rename"),
-      ["<C-r>"]          = tree_cb("full_rename"),
-      ["x"]              = tree_cb("cut"),
-      ["c"]              = tree_cb("copy"),
-      ["p"]              = tree_cb("paste"),
-      ["[c"]             = tree_cb("prev_git_item"),
-      ["]c"]             = tree_cb("next_git_item"),
-      ["-"]              = tree_cb("dir_up"),
-      ["q"]              = tree_cb("close"),
+      { key = {"<CR>", "o", "<2-LeftMouse>","l"}, cb = tree_cb("edit") },
+      { key = {"<2-RightMouse>", "<C-]>"},    cb = tree_cb("cd") },
+      { key = "<C-v>",                        cb = tree_cb("vsplit") },
+      { key = "<C-x>",                        cb = tree_cb("split") },
+      { key = "<C-t>",                        cb = tree_cb("tabnew") },
+      { key = "<",                            cb = tree_cb("prev_sibling") },
+      { key = ">",                            cb = tree_cb("next_sibling") },
+      { key = "P",                            cb = tree_cb("parent_node") },
+      { key = {"<BS>",'h'},                   cb = tree_cb("close_node") },
+      { key = "<S-CR>",                       cb = tree_cb("close_node") },
+      { key = "<Tab>",                        cb = tree_cb("preview") },
+      { key = "K",                            cb = tree_cb("first_sibling") },
+      { key = "J",                            cb = tree_cb("last_sibling") },
+      { key = "I",                            cb = tree_cb("toggle_ignored") },
+      { key = "H",                            cb = tree_cb("toggle_dotfiles") },
+      { key = "R",                            cb = tree_cb("refresh") },
+      { key = "a",                            cb = tree_cb("create") },
+      { key = "d",                            cb = tree_cb("remove") },
+      { key = "r",                            cb = tree_cb("rename") },
+      { key = "<C-r>",                        cb = tree_cb("full_rename") },
+      { key = "x",                            cb = tree_cb("cut") },
+      { key = "c",                            cb = tree_cb("copy") },
+      { key = "p",                            cb = tree_cb("paste") },
+      { key = "y",                            cb = tree_cb("copy_name") },
+      { key = "Y",                            cb = tree_cb("copy_path") },
+      { key = "gy",                           cb = tree_cb("copy_absolute_path") },
+      { key = "[c",                           cb = tree_cb("prev_git_item") },
+      { key = "]c",                           cb = tree_cb("next_git_item") },
+      { key = "-",                            cb = tree_cb("dir_up") },
+      { key = "q",                            cb = tree_cb("close") },
+      { key = "g?",                           cb = tree_cb("toggle_help") },
     }
 EOF
 
@@ -1225,24 +1286,25 @@ EOF
 
 " default will show icon by default if no icon is provided
 " default shows no icon by default
-let g:nvim_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
-    \ 'git': {
-    \   'unstaged': "✗",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "★"
-    \   },
-    \ 'folder': {
-    \   'default': "",
-    \   'open': "",
-    \   'empty': "",
-    \   'empty_open': "",
-    \   'symlink': "",
-    \   }
-    \ }
+" let g:nvim_tree_icons = {
+"     \ 'default': '',
+"     \ 'symlink': '',
+"     \ 'git': {
+"     \   'unstaged': "✗",
+"     \   'staged': "✓",
+"     \   'unmerged': "",
+"     \   'renamed': "➜",
+"     \   'untracked': "★"
+"     \   },
+"     \ 'folder': {
+"     \   'default': "",
+"     \   'open': "",
+"     \   'empty': "",
+"     \   'empty_open': "",
+"     \   'symlink': "",
+"     \   }
+"     \ }
+
 
 " highlight NvimTreeFolderIcon guibg=blue
 

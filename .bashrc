@@ -174,6 +174,9 @@ alias ops='cd ~/Documents/openSource/'
 alias emr='~/.emacs.d/bin/doom sync'
 alias teams='sudo /Applications/Microsoft\ Teams.app/Contents/MacOS/Teams'
 alias cute='/Applications/qutebrowser.app/Contents/MacOS/qutebrowser'
+# alias python2='python'
+# alias pyx='python'
+# alias ide="$(ide)"
 export NODE_ENV=development
 # eval "$(starship init bash)"
 source "$HOME/.cargo/env"
